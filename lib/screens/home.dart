@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
               MetricsList(),
               SizedBox(height: 20.0),
               ActivityList(),
-              AttendanceDetailsCard(),
+              AttendanceList()
             ],
           ),
         ),
@@ -148,7 +149,7 @@ class AttendanceDetailsCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
-      height: 120.0,
+      height: 100.0,
       decoration: const BoxDecoration(
         color: Colors.grey,
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -156,17 +157,17 @@ class AttendanceDetailsCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 80,
+            width: 75,
             height: 90,
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(15.5))
+              borderRadius: BorderRadius.all(Radius.circular(10.0))
             ),
             child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("22",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                  Text("Wed",style: TextStyle(fontWeight: FontWeight.bold,fontSize:23),),
+                  Text("22",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 33),),
+                  Text("Wed",style: TextStyle(fontWeight: FontWeight.bold,fontSize:20),),
                 ],
             ),
           )
@@ -175,6 +176,30 @@ class AttendanceDetailsCard extends StatelessWidget {
     );
   }
 }
+
+
+class AttendanceList extends StatelessWidget {
+  const AttendanceList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      height: 300,
+      child: ListView(
+        children: const [
+          AttendanceDetailsCard(),
+          SizedBox(height: 20.0),
+          AttendanceDetailsCard(),
+          SizedBox(height: 20.0),
+          AttendanceDetailsCard(),
+          SizedBox(height: 20.0),
+          AttendanceDetailsCard()
+        ],
+      ),
+    );
+  }
+}
+
 
 
 
