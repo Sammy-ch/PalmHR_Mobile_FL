@@ -9,7 +9,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(15.0),
@@ -21,7 +20,7 @@ class HomeScreen extends StatelessWidget {
               MetricsList(),
               SizedBox(height: 20.0),
               ActivityList(),
-              AttendanceList()
+              Expanded(child: AttendanceList())
             ],
           ),
         ),
@@ -37,7 +36,7 @@ class Clockingcomponent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       width: double.infinity, // Full width of the parent
-      height: 250.0, // Set the height of the rectangle
+      height: 150.0, // Set the height of the rectangle
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(8.0)),
     );
@@ -55,7 +54,7 @@ class MetricsList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           Container(
-            width: 160,
+            width: 180,
             decoration: BoxDecoration(
               color: Colors.grey,
               borderRadius: BorderRadius.circular(8.0), // Rounded corners
@@ -63,7 +62,7 @@ class MetricsList extends StatelessWidget {
           ),
           SizedBox(width: 8.0), // Add space between the items
           Container(
-            width: 160,
+            width: 180,
             decoration: BoxDecoration(
               color: Colors.grey,
               borderRadius: BorderRadius.circular(8.0), // Rounded corners
@@ -71,7 +70,7 @@ class MetricsList extends StatelessWidget {
           ),
           SizedBox(width: 8.0), // Add space between the items
           Container(
-            width: 160,
+            width: 180,
             decoration: BoxDecoration(
               color: Colors.grey,
               borderRadius: BorderRadius.circular(8.0), // Rounded corners
@@ -93,15 +92,13 @@ class ActivityList extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20.0),
       child: const Text("Attendance History",
           textAlign: TextAlign.start,
-          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold,color: Colors.white)),
+          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
     );
   }
 }
 
 class HeaderComponent extends StatefulWidget {
   const HeaderComponent({super.key});
-
-  final volume = 0.0;
 
   @override
   State<HeaderComponent> createState() => _HeaderComponentState();
@@ -126,7 +123,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
                   style: TextStyle(
                       fontSize: 23,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+                      )),
             ],
           ),
           const Spacer(flex: 1),
@@ -188,11 +185,11 @@ class AttendanceList extends StatelessWidget {
       child: ListView(
         children: const [
           AttendanceDetailsCard(),
-          SizedBox(height: 20.0),
+          SizedBox(height: 10.0),
           AttendanceDetailsCard(),
-          SizedBox(height: 20.0),
+          SizedBox(height: 10.0),
           AttendanceDetailsCard(),
-          SizedBox(height: 20.0),
+          SizedBox(height: 10.0),
           AttendanceDetailsCard()
         ],
       ),

@@ -7,12 +7,36 @@ class AnalyticScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        backgroundColor: Colors.black,
-        body: const Center(
-            child: Text("Analytics Screen"),
-        ),
+    return const Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                AnalyticHeader()
+              ],
+            ),
+          ),
+        )
+    );
+  }
+}
+
+
+class AnalyticHeader extends StatefulWidget {
+  const AnalyticHeader({super.key});
+
+  @override
+  State<AnalyticHeader> createState() => _AnalyticHeaderState();
+}
+
+class _AnalyticHeaderState extends State<AnalyticHeader> {
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        Text("Analytics",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold))
+      ],
     );
   }
 }
