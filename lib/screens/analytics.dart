@@ -40,3 +40,4 @@ class _AnalyticHeaderState extends State<AnalyticHeader> {
     );
   }
 }
+

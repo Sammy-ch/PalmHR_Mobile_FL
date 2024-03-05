@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:getwidget/getwidget.dart';
+
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -34,11 +35,47 @@ class Clockingcomponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.bottomCenter,
       padding: const EdgeInsets.all(12),
       width: double.infinity, // Full width of the parent
       height: 150.0, // Set the height of the rectangle
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(8.0)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              const Text("CHECKING IN",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+              const Spacer(),
+              const Text("07:08:25",style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold)),
+              const Spacer(),
+              GFButton(
+                onPressed: (){},
+                text: "Clock In",
+                icon: const Icon(Icons.login),
+                type: GFButtonType.solid,
+                shape: GFButtonShape.pills,
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const Text("CHECKING OUT",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+              const Spacer(),
+              const Text("--:--:--",style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold)),
+              const Spacer(),
+              GFButton(
+                onPressed: (){},
+                text: "Clock Out",
+                icon: const Icon(Icons.logout),
+                type: GFButtonType.solid,
+                shape: GFButtonShape.pills,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -108,7 +145,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
+      padding: const EdgeInsets.only(bottom: 30.0),
       child: Row(
         children: [
           const Column(
@@ -128,7 +165,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
           ),
           const Spacer(flex: 1),
           IconButton(
-            icon: const Icon(Icons.account_circle_rounded, size: 50.0),
+            icon: const Icon(Icons.account_circle_rounded, size: 40.0),
             tooltip: 'Increase volume by 10',
             onPressed: () {},
           ),
@@ -163,8 +200,8 @@ class AttendanceDetailsCard extends StatelessWidget {
             child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("22",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 33),),
-                  Text("Wed",style: TextStyle(fontWeight: FontWeight.bold,fontSize:20),),
+                  Text("22",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 33,color: Colors.black)),
+                  Text("Wed",style: TextStyle(fontWeight: FontWeight.bold,fontSize:20, color: Colors.black)),
                 ],
             ),
           )
