@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:action_slider/action_slider.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -14,7 +15,13 @@ class HomeScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(15.0),
           child: Column(
-            children: [HeaderComponent(),SizedBox(height: 25), AttendanceAnalyticsComponent()],
+            children: [
+              HeaderComponent(),
+              SizedBox(height: 25),
+              AttendanceAnalyticsComponent(),
+              SizedBox(height: 35),
+              CheckingComponent()
+            ],
           ),
         ),
       ),
@@ -105,7 +112,10 @@ class _AttendanceAnalyticsComponentState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height:30,child:  Text("Latest Attendance",style: GoogleFonts.lato(fontSize: 15))),
+        SizedBox(
+            height: 30,
+            child: Text("Latest Attendance",
+                style: GoogleFonts.lato(fontSize: 15))),
         SizedBox(
           height: 180,
           child: ListView(
@@ -116,23 +126,7 @@ class _AttendanceAnalyticsComponentState
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: 160,
-                  color: Colors.red,
-                ),
-              ),
-              const SizedBox(width: 5),
-                 ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 160,
-                  color: Colors.red,
-                ),
-              ),
-              const SizedBox(width: 5),
-             ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 160,
-                  color: Colors.red,
+                  color: Colors.grey,
                 ),
               ),
               const SizedBox(width: 5),
@@ -140,7 +134,7 @@ class _AttendanceAnalyticsComponentState
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: 160,
-                  color: Colors.red,
+                  color: Colors.grey,
                 ),
               ),
               const SizedBox(width: 5),
@@ -148,7 +142,23 @@ class _AttendanceAnalyticsComponentState
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: 160,
-                  color: Colors.red,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(width: 5),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: 160,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(width: 5),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: 160,
+                  color: Colors.grey,
                 ),
               ),
               const SizedBox(width: 5),
@@ -157,5 +167,29 @@ class _AttendanceAnalyticsComponentState
         ),
       ],
     );
+  }
+}
+
+class CheckingComponent extends StatefulWidget {
+  const CheckingComponent({super.key});
+
+  @override
+  State<CheckingComponent> createState() => _CheckingComponentState();
+}
+
+class _CheckingComponentState extends State<CheckingComponent> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        child: ActionSlider.standard(
+      toggleColor: Colors.green,
+      action: (controller) async {
+        controller.loading(); //starts loading animation
+        await Future.delayed(const Duration(seconds: 3));
+        controller.success(); //starts success animation
+      },
+      child:
+          Text("Slide to check In", style: GoogleFonts.poppins(fontSize: 18)),
+    ));
   }
 }

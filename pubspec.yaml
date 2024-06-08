@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.2.4 <4.0.0'
 
 dependencies:
+  action_slider: ^0.7.0
   auto_route: ^7.9.2
   auto_route_generator: ^7.3.2
   babstrap_settings_screen: ^0.1.6
