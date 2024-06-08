@@ -22,7 +22,9 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 25),
               AttendanceAnalyticsComponent(),
               SizedBox(height: 35),
-              CheckingComponent()
+              CheckingComponent(),
+              SizedBox(height: 35),
+              AttendanceActivity()
             ],
           ),
         ),
@@ -101,9 +103,9 @@ class _AttendanceAnalyticsComponentState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-            height: 30,
+            height: 40,
             child: Text("Latest Attendance",
-                style: GoogleFonts.lato(fontSize: 15))),
+                style: GoogleFonts.lato(fontSize: 20))),
         SizedBox(
           height: 150,
           child: ListView(
@@ -246,6 +248,65 @@ class _AttendanceChartState extends State<AttendanceChart> {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
+    );
+  }
+}
+
+
+class AttendanceActivity extends StatefulWidget {
+  const AttendanceActivity({super.key});
+
+  @override
+  State<AttendanceActivity> createState() => _AttendanceActivityState();
+}
+
+class _AttendanceActivityState extends State<AttendanceActivity> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+        Text("Recent Activity",style: GoogleFonts.lato(fontSize: 20.0)),
+        const SizedBox(height: 20),
+        SizedBox(
+          height: 150,
+          child: ListView(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.grey.shade800),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        const FaIcon(FontAwesomeIcons.buildingCircleCheck),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text("05-07-2024", style: GoogleFonts.poppins(fontSize: 18)),
+                          Text("MIREGO AFRICA",style: GoogleFonts.montserrat(fontSize: 10,fontWeight: FontWeight.w400))
+                        ],
+                        ),
+                        const Spacer(flex: 1,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text("Time"),
+                            Text("10:20 am - 07:20 pm",style: GoogleFonts.montserrat())
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],),
     );
   }
 }
