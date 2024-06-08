@@ -21,28 +21,33 @@ class MainScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
-            child: BottomNavigationBar(
-              unselectedItemColor: Colors.white,
-              elevation: 15.0,
-              backgroundColor: Colors.black87,
-              currentIndex: tabsRouter.activeIndex,
-              onTap: (value) {
-                  tabsRouter.setActiveIndex(value);
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_max_outlined),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.analytics_outlined),
-                    label: "Analytics"
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: "Settings"
-                )
-              ],
+            child: SizedBox(
+              height: 80,
+              child: BottomNavigationBar(
+                showSelectedLabels: true,
+                showUnselectedLabels: false,
+                unselectedItemColor: Colors.white,
+                elevation: 15.0,
+                backgroundColor: Colors.black87,
+                currentIndex: tabsRouter.activeIndex,
+                onTap: (value) {
+                    tabsRouter.setActiveIndex(value);
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_max_outlined),
+                    label: "Home",
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.analytics_outlined),
+                      label: "Analytics"
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings),
+                      label: "Settings"
+                  )
+                ],
+              ),
             ),
           ),
         ) ,
