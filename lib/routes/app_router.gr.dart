@@ -8,11 +8,11 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:apex_time_sync_flutter/screens/analytics.dart' as _i1;
-import 'package:apex_time_sync_flutter/screens/home.dart' as _i2;
-import 'package:apex_time_sync_flutter/screens/main_screen.dart' as _i4;
-import 'package:apex_time_sync_flutter/screens/settings.dart' as _i3;
 import 'package:auto_route/auto_route.dart' as _i5;
+import 'package:PALMHR_MOBILE/screens/analytics.dart' as _i1;
+import 'package:PALMHR_MOBILE/screens/home.dart' as _i2;
+import 'package:PALMHR_MOBILE/screens/main_screen.dart' as _i4;
+import 'package:PALMHR_MOBILE/screens/settings.dart' as _i3;
 
 abstract class $AppRouter extends _i5.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -40,7 +40,7 @@ abstract class $AppRouter extends _i5.RootStackRouter {
     MainRoute.name: (routeData) {
       return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.mainScreen(),
+        child: const _i4.MainScreen(),
       );
     },
   };

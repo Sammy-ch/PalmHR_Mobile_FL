@@ -1,5 +1,5 @@
-name: apex_time_sync_flutter
-description: "A new Flutter project."
+name: PALMHR_MOBILE
+description: "HR Management app"
 publish_to: 'none'
 version: 0.1.0
 
@@ -7,9 +7,7 @@ environment:
   sdk: '>=3.2.4 <4.0.0'
 
 dependencies:
-  animated_bottom_navigation_bar: ^1.3.3
-  getwidget: ^2.0.4
-  auto_route: ^7.8.4
+  auto_route: ^7.9.2
   auto_route_generator: ^7.3.2
   babstrap_settings_screen: ^0.1.6
   fl_chart: ^0.66.2
