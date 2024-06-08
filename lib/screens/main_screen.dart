@@ -22,6 +22,7 @@ class MainScreen extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: BottomNavigationBar(
+              unselectedItemColor: Colors.white,
               elevation: 15.0,
               backgroundColor: Colors.black87,
               currentIndex: tabsRouter.activeIndex,
