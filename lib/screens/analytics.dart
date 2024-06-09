@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 
 @RoutePage()
 class AnalyticScreen extends StatelessWidget {
@@ -33,10 +35,20 @@ class AnalyticHeader extends StatefulWidget {
 class _AnalyticHeaderState extends State<AnalyticHeader> {
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [
-        Text("Analytics",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold))
-      ],
+    return Container(
+      child: 
+        Column(
+          children: [
+            Center(child: Text("Analytics",style: GoogleFonts.dmSans(fontSize: 25,fontWeight: FontWeight.bold))),
+            EasyDateTimeLine(
+              initialDate: DateTime.now(),
+              dayProps: const EasyDayProps(
+                width: 60,
+                height: 80
+              ),
+              )
+          ],
+        )
     );
   }
 }

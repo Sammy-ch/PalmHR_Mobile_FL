@@ -265,8 +265,9 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
           height: 150,
           child: ListView(
             children: [
-              Container(
-                decoration: BoxDecoration(color: Colors.grey.shade800,borderRadius: BorderRadius.circular(10)),
+              ClayContainer(
+                borderRadius: 10,
+                curveType: CurveType.concave,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Row(

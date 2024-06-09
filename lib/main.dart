@@ -13,8 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     AppRouter appRouter = AppRouter();
     return MaterialApp.router(
-      theme: FlexThemeData.light(scheme: FlexScheme.amber,useMaterial3: true),
-      darkTheme: FlexThemeData.dark(scheme: FlexScheme.amber),
+      theme: FlexThemeData.light(scheme: FlexScheme.green),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter.config(),
