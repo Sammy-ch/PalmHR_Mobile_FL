@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:clay_containers/clay_containers.dart';
 @RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -103,95 +103,86 @@ class _AttendanceAnalyticsComponentState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-            height: 40,
-            child: Text("Latest Attendance",
-                style: GoogleFonts.lato(fontSize: 20))),
+            height: 30,
+            child: Text("Latest Attendance",style: GoogleFonts.lato(fontSize: 20))
+            ),
         SizedBox(
           height: 150,
           child: ListView(
-            // This next line does the trick.
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 200,
-                  color: Colors.greenAccent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const FaIcon(FontAwesomeIcons.personWalkingArrowRight),
-                            const SizedBox(width: 20),
-                            Text("Check In", style: GoogleFonts.poppins(fontSize: 18))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("10:20 am",style: GoogleFonts.montserrat(fontSize: 25,fontWeight: FontWeight.bold)),
-                        Text("On Time",style: GoogleFonts.montserrat())
-                      ],
-                    ),
+              ClayContainer(
+                borderRadius: 12,
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const FaIcon(FontAwesomeIcons.personWalkingArrowRight),
+                          const SizedBox(width: 20),
+                          Text("Check In", style: GoogleFonts.poppins(fontSize: 18))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text("10:20 am",style: GoogleFonts.montserrat(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text("On Time",style: GoogleFonts.montserrat())
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(width: 5),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 200,
-                  color: Colors.amber,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const FaIcon(FontAwesomeIcons.personWalkingArrowLoopLeft),
-                            const SizedBox(width: 20),
-                            Text("Check Out", style: GoogleFonts.poppins(fontSize: 18))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("07:20 pm",style: GoogleFonts.montserrat(fontSize: 25,fontWeight: FontWeight.bold)),
-                        Text("Go Home",style: GoogleFonts.montserrat())
-                      ],
-                    ),
+              const SizedBox(width: 15),
+              ClayContainer(
+                borderRadius: 12,
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const FaIcon(FontAwesomeIcons.personWalkingArrowLoopLeft),
+                          const SizedBox(width: 20),
+                          Text("Check Out", style: GoogleFonts.poppins(fontSize: 18))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text("07:20 pm",style: GoogleFonts.montserrat(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text("Go Home",style: GoogleFonts.montserrat())
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(width: 5),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 200,
-                  color: Colors.teal,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const FaIcon(FontAwesomeIcons.personWalkingArrowRight),
-                            const SizedBox(width: 20),
-                            Text("Total Days", style: GoogleFonts.poppins(fontSize: 18))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("28",style: GoogleFonts.montserrat(fontSize: 25,fontWeight: FontWeight.bold)),
-                        Text("Working Days",style: GoogleFonts.montserrat())
-                      ],
-                    ),
+              const SizedBox(width: 15),
+              ClayContainer(
+                borderRadius: 12,
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const FaIcon(FontAwesomeIcons.personWalkingArrowRight),
+                          const SizedBox(width: 20),
+                          Text("Total Days", style: GoogleFonts.poppins(fontSize: 18))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text("28",style: GoogleFonts.montserrat(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text("Working Days",style: GoogleFonts.montserrat())
+                    ],
                   ),
                 ),
               ),
@@ -224,6 +215,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
   Widget build(BuildContext context) {
     return SizedBox(
         child: ActionSlider.standard(
+          sliderBehavior: SliderBehavior.stretch,
       toggleColor: Colors.greenAccent,
       action: (controller) async {
         controller.loading(); //starts loading animation
@@ -273,33 +265,30 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
           height: 150,
           child: ListView(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.grey.shade800),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        const FaIcon(FontAwesomeIcons.buildingCircleCheck),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Text("05-07-2024", style: GoogleFonts.poppins(fontSize: 18)),
-                          Text("MIREGO AFRICA",style: GoogleFonts.montserrat(fontSize: 10,fontWeight: FontWeight.w400))
-                        ],
-                        ),
-                        const Spacer(flex: 1,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text("Time"),
-                            Text("10:20 am - 07:20 pm",style: GoogleFonts.montserrat())
-                          ],
-                        )
+              Container(
+                decoration: BoxDecoration(color: Colors.grey.shade800,borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    children: [
+                      const FaIcon(FontAwesomeIcons.buildingCircleCheck),
+                      const SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                        Text("05-07-2024", style: GoogleFonts.poppins(fontSize: 18)),
+                        Text("MIREGO AFRICA",style: GoogleFonts.montserrat(fontSize: 10,fontWeight: FontWeight.w400))
                       ],
-                    ),
+                      ),
+                      const Spacer(flex: 1,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text("Time"),
+                          Text("10:20 am - 07:20 pm",style: GoogleFonts.montserrat())
+                        ],
+                      )
+                    ],
                   ),
                 ),
               )

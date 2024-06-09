@@ -22,7 +22,7 @@ class MainScreen extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: SizedBox(
-              height: 80,
+              height: 60,   
               child: BottomNavigationBar(
                 showSelectedLabels: true,
                 showUnselectedLabels: false,
