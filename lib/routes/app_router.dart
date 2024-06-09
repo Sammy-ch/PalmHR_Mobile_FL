@@ -1,3 +1,4 @@
+import 'package:PALMHR_MOBILE/routes/auth_guard.dart';
 import 'package:auto_route/auto_route.dart';
 import 'app_router.gr.dart';            
 
@@ -10,9 +11,10 @@ class AppRouter extends $AppRouter {
       page: MainRoute.page,
       initial: true,
       children: [
-       AutoRoute(page: HomeRoute.page),
-       AutoRoute(page: AnalyticRoute.page),
-       AutoRoute(page: SettingRoute.page),
+       AutoRoute(page: HomeRoute.page,guards: [AuthGuard()]),
+       AutoRoute(page: AnalyticRoute.page,guards: [AuthGuard()]),
+       AutoRoute(page: SettingRoute.page,guards: [AuthGuard()]),
+       AutoRoute(page: LoginRoute.page),
       ]
     ),
   ];
