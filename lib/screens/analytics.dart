@@ -81,14 +81,14 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
           Expanded(
             child: GlassContainer.frostedGlass(
               borderRadius: BorderRadius.circular(15),
-              height: 305,
+              height: 315,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text("Performance Metrics",style: GoogleFonts.dmSans(fontSize: 25,)),
               )
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 15),
           Expanded(
               child: Column(
                 children: [
@@ -100,7 +100,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                       child: Text("Performance Metrics", style: GoogleFonts.dmSans(fontSize: 25,)),
                     )
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
                   GlassContainer.frostedGlass(
                     borderRadius: BorderRadius.circular(15),
                     height: 150,

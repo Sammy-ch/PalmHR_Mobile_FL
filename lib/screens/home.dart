@@ -48,6 +48,8 @@ class HeaderComponent extends StatefulWidget {
 
 class _HeaderComponentState extends State<HeaderComponent> {
   var _loading = true;
+  String _FirstName = '';
+  String _LastName = '';
 
   Future<void> _getProfile() async {
     setState(() {
@@ -59,12 +61,36 @@ class _HeaderComponentState extends State<HeaderComponent> {
       final data = await supabase
           .from("EmployeeProfile")
           .select()
-          .eq("id", userId)
+          .eq("profile_id", "90287223-4d89-4aca-8b36-d1f45590b9e7")
           .single();
+
+          _FirstName = data['first_name'];
+          _LastName = data['last_name'];
+
+
     } on PostgrestException catch (e) {
-      print(e);
+      if (mounted) {
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occured'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
+
 
   @override
   void initState() {
@@ -95,7 +121,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
                         color: Colors.grey)),
-                Text('Allan Cherubin',
+                Text('$_FirstName $_LastName',
                     style: GoogleFonts.roboto(
                         fontSize: 20, fontWeight: FontWeight.normal)),
               ],
@@ -140,7 +166,7 @@ class _AttendanceAnalyticsComponentState
         SizedBox(
             height: 30,
             child: Text("Latest Attendance",
-                style: GoogleFonts.lato(fontSize: 18,color: Colors.grey))),
+                style: GoogleFonts.lato(fontSize: 18, color: Colors.grey))),
         SizedBox(
           height: 150,
           child: ListView(
@@ -149,7 +175,7 @@ class _AttendanceAnalyticsComponentState
             children: <Widget>[
               GlassContainer.frostedGlass(
                 borderRadius: BorderRadius.circular(15),
-                width: 200,
+                width: 180,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
@@ -175,10 +201,10 @@ class _AttendanceAnalyticsComponentState
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 10),
               GlassContainer.frostedGlass(
                 borderRadius: BorderRadius.circular(15),
-                width: 200,
+                width: 180,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
@@ -204,10 +230,10 @@ class _AttendanceAnalyticsComponentState
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 10),
               GlassContainer.frostedGlass(
                 borderRadius: BorderRadius.circular(15),
-                width: 200,
+                width: 180,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
@@ -236,7 +262,7 @@ class _AttendanceAnalyticsComponentState
               const SizedBox(width: 15),
               GlassContainer.frostedGlass(
                 borderRadius: BorderRadius.circular(15),
-                width: 160,
+                width: 180,
               ),
               const SizedBox(width: 15),
             ],
@@ -308,7 +334,8 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Recent Activity", style: GoogleFonts.lato(fontSize: 18.0,color: Colors.grey)),
+              Text("Recent Activity",
+                  style: GoogleFonts.lato(fontSize: 18.0, color: Colors.grey)),
               const SizedBox(height: 10),
               SizedBox(
                 height: 150,
@@ -328,7 +355,8 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                     style: GoogleFonts.poppins(fontSize: 18)),
                                 Text("MIREGO AFRICA",
                                     style: GoogleFonts.montserrat(
-                                        fontSize: 10, fontWeight: FontWeight.w400))
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400))
                               ],
                             ),
                             const Spacer(
