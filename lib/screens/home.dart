@@ -337,7 +337,7 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text("Time"),
+                                const Text("Present"),
                                 Text("10:20 am - 07:20 pm",
                                     style: GoogleFonts.montserrat())
                               ],

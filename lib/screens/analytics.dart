@@ -43,12 +43,19 @@ class _AnalyticHeaderState extends State<AnalyticHeader> {
       child: 
         Column(
           children: [
-            Center(child: Text("Analytics",style: GoogleFonts.dmSans(fontSize: 25,fontWeight: FontWeight.bold))),
+            Center(child: Text("Performance",style: GoogleFonts.dmSans(fontSize: 25,fontWeight: FontWeight.bold))),
             EasyDateTimeLine(
+              headerProps: const EasyHeaderProps(
+                selectedDateStyle: TextStyle(color: Colors.white,fontSize: 15),
+              ),
+              activeColor: Colors.white,
               initialDate: DateTime.now(),
               dayProps: const EasyDayProps(
-                width: 60,
-                height: 80
+                width: 50,
+                height: 80,
+                inactiveDayStyle: DayStyle(
+                  dayNumStyle:  TextStyle(color: Colors.white,fontSize: 20),  
+                ) 
               ),
             )
           ],
