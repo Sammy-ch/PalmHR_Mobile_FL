@@ -1,2 +1,2 @@
-# apex_time_sync_flutter
+# PALM HR
 Employee Time Management App
