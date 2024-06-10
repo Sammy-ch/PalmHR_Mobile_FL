@@ -4,6 +4,7 @@ import 'package:PALMHR_MOBILE/main.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:glass_kit/glass_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -139,15 +140,15 @@ class _AttendanceAnalyticsComponentState
         SizedBox(
             height: 30,
             child: Text("Latest Attendance",
-                style: GoogleFonts.lato(fontSize: 20))),
+                style: GoogleFonts.lato(fontSize: 18,color: Colors.grey))),
         SizedBox(
           height: 150,
           child: ListView(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              ClayContainer(
-                borderRadius: 12,
+              GlassContainer.frostedGlass(
+                borderRadius: BorderRadius.circular(15),
                 width: 200,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -175,8 +176,8 @@ class _AttendanceAnalyticsComponentState
                 ),
               ),
               const SizedBox(width: 15),
-              ClayContainer(
-                borderRadius: 12,
+              GlassContainer.frostedGlass(
+                borderRadius: BorderRadius.circular(15),
                 width: 200,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -204,8 +205,8 @@ class _AttendanceAnalyticsComponentState
                 ),
               ),
               const SizedBox(width: 15),
-              ClayContainer(
-                borderRadius: 12,
+              GlassContainer.frostedGlass(
+                borderRadius: BorderRadius.circular(15),
                 width: 200,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -232,15 +233,12 @@ class _AttendanceAnalyticsComponentState
                   ),
                 ),
               ),
-              const SizedBox(width: 5),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 160,
-                  color: Colors.grey,
-                ),
+              const SizedBox(width: 15),
+              GlassContainer.frostedGlass(
+                borderRadius: BorderRadius.circular(15),
+                width: 160,
               ),
-              const SizedBox(width: 5),
+              const SizedBox(width: 15),
             ],
           ),
         ),
@@ -262,7 +260,8 @@ class _CheckingComponentState extends State<CheckingComponent> {
     return SizedBox(
         child: ActionSlider.standard(
       sliderBehavior: SliderBehavior.stretch,
-      toggleColor: Colors.greenAccent,
+      backgroundColor: Colors.grey.shade800,
+      toggleColor: Colors.green.shade600,
       action: (controller) async {
         controller.loading(); //starts loading animation
         await Future.delayed(const Duration(seconds: 3));
@@ -298,54 +297,65 @@ class AttendanceActivity extends StatefulWidget {
 class _AttendanceActivityState extends State<AttendanceActivity> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Recent Activity", style: GoogleFonts.lato(fontSize: 20.0)),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 150,
-            child: ListView(
-              children: [
-                ClayContainer(
-                  borderRadius: 10,
-                  curveType: CurveType.concave,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        const FaIcon(FontAwesomeIcons.buildingCircleCheck),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.shade900,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Recent Activity", style: GoogleFonts.lato(fontSize: 18.0,color: Colors.grey)),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 150,
+                child: ListView(
+                  children: [
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
                           children: [
-                            Text("05-07-2024",
-                                style: GoogleFonts.poppins(fontSize: 18)),
-                            Text("MIREGO AFRICA",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 10, fontWeight: FontWeight.w400))
+                            const FaIcon(FontAwesomeIcons.buildingCircleCheck),
+                            const SizedBox(width: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("05-07-2024",
+                                    style: GoogleFonts.poppins(fontSize: 18)),
+                                Text("MIREGO AFRICA",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 10, fontWeight: FontWeight.w400))
+                              ],
+                            ),
+                            const Spacer(
+                              flex: 1,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text("Time"),
+                                Text("10:20 am - 07:20 pm",
+                                    style: GoogleFonts.montserrat())
+                              ],
+                            )
                           ],
                         ),
-                        const Spacer(
-                          flex: 1,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text("Time"),
-                            Text("10:20 am - 07:20 pm",
-                                style: GoogleFonts.montserrat())
-                          ],
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+                    Divider(
+                      color: Colors.grey.shade600,
+                      thickness: 0.5,
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
