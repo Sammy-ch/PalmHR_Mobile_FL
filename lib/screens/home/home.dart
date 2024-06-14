@@ -1,18 +1,13 @@
 import 'dart:async';
 
-import 'package:PALMHR_MOBILE/main.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:action_slider/action_slider.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:clay_containers/clay_containers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-@RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 

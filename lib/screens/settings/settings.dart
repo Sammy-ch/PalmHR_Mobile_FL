@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 
-@RoutePage()
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
 
