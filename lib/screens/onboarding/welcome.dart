@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -14,6 +15,7 @@ class WelcomeScreen extends StatelessWidget {
                   color: Colors.teal, decoration: TextDecoration.none))),
           ElevatedButton(
               onPressed: () {
+                context.goNamed('/register');
               },
               child: const Text("Home Page"))
         ],

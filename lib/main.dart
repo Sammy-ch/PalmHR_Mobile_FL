@@ -1,6 +1,7 @@
 import 'package:PALMHR_MOBILE/screens/home/home.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/login.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/register.dart';
+import 'package:PALMHR_MOBILE/screens/onboarding/welcome.dart';
 import 'package:PALMHR_MOBILE/screens/performance/analytics.dart';
 import 'package:PALMHR_MOBILE/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +42,13 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 
 final GoRouter _goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: "/login",
+  initialLocation: "/welcome",
   routes: [
+    GoRoute(
+      path: '/welcome',
+      name: '/welcome',
+      builder: (context, state) => const WelcomeScreen(),
+    ),
     GoRoute(
       path: '/login',
       name: '/login',
@@ -98,6 +104,22 @@ final GoRouter _goRouter = GoRouter(
           ),
         ]),
   ],
+  redirect: (context, state) {
+    final session = Supabase.instance.client.auth.currentSession;
+    final isLoggedIn = session != null;
+
+    if (state.matchedLocation == '/welcome') {
+      return null;
+    }
+
+    if (!isLoggedIn) {
+      return '/login';
+    }
+    if (isLoggedIn) {
+      return '/home';
+    }
+    return null;
+  },
 );
 
 int _getSelectedIndex(String location) {
