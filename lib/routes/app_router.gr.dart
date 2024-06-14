@@ -9,11 +9,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:PALMHR_MOBILE/screens/analytics.dart' as _i1;
-import 'package:PALMHR_MOBILE/screens/home.dart' as _i2;
-import 'package:PALMHR_MOBILE/screens/login.dart' as _i3;
-import 'package:PALMHR_MOBILE/screens/main_screen.dart' as _i4;
-import 'package:PALMHR_MOBILE/screens/settings.dart' as _i5;
+import 'package:PALMHR_MOBILE/screens/performance/analytics.dart' as _i1;
+import 'package:PALMHR_MOBILE/screens/home/home.dart' as _i2;
+import 'package:PALMHR_MOBILE/screens/onboarding/login.dart' as _i3;
+import 'package:PALMHR_MOBILE/screens/widgets/main_screen.dart' as _i4;
+import 'package:PALMHR_MOBILE/screens/settings/settings.dart' as _i5;
 
 abstract class $AppRouter extends _i6.RootStackRouter {
   $AppRouter({super.navigatorKey});
