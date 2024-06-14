@@ -57,16 +57,15 @@ class _HeaderComponentState extends State<HeaderComponent> {
     });
 
     try {
-      final userId = supabase.auth.currentUser!.id;
-      final data = await supabase
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      final data = await Supabase.instance.client
           .from("EmployeeProfile")
           .select()
           .eq("profile_id", "90287223-4d89-4aca-8b36-d1f45590b9e7")
           .single();
 
-          _FirstName = data['first_name'];
-          _LastName = data['last_name'];
-
+      _FirstName = data['first_name'];
+      _LastName = data['last_name'];
 
     } on PostgrestException catch (e) {
       if (mounted) {
@@ -91,7 +90,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -105,6 +103,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
         Row(
           children: [
             const GFAvatar(
+              
               backgroundColor: Colors.grey,
               shape: GFAvatarShape.standard,
               child: Icon(
