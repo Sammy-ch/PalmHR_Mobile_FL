@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                         child: ElevatedButton(
                             onPressed: (){
-                              context.goNamed("/login");
+                              context.goNamed("/home");
                             },
                             child: Text("Get Started",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500)
                             )

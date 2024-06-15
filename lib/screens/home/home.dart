@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:PALMHR_MOBILE/main.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:glass_kit/glass_kit.dart';
@@ -43,8 +44,8 @@ class HeaderComponent extends StatefulWidget {
 
 class _HeaderComponentState extends State<HeaderComponent> {
   var _loading = true;
-  String _FirstName = '';
-  String _LastName = '';
+  String _firstName = '';
+  String _lastName = '';
 
   Future<void> _getProfile() async {
     setState(() {
@@ -52,16 +53,15 @@ class _HeaderComponentState extends State<HeaderComponent> {
     });
 
     try {
-      final userId = Supabase.instance.client.auth.currentUser?.id;
-      final data = await Supabase.instance.client
+      final userId = supabase.auth.currentSession!.user.id;
+      final data = await supabase
           .from("EmployeeProfile")
           .select()
-          .eq("profile_id", "90287223-4d89-4aca-8b36-d1f45590b9e7")
+          .eq("profile_id", userId)
           .single();
 
-      _FirstName = data['first_name'];
-      _LastName = data['last_name'];
-
+      _firstName = data['first_name'];
+      _lastName = data['last_name'];
     } on PostgrestException catch (e) {
       if (mounted) {
         SnackBar(
@@ -98,7 +98,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
         Row(
           children: [
             const GFAvatar(
-              
               backgroundColor: Colors.grey,
               shape: GFAvatarShape.standard,
               child: Icon(
@@ -115,9 +114,11 @@ class _HeaderComponentState extends State<HeaderComponent> {
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
                         color: Colors.grey)),
-                Text('$_FirstName $_LastName',
+                Text(_firstName,
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.normal)),
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white)),
               ],
             )
           ],
@@ -132,8 +133,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
                 }),
             IconButton(
                 icon: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-                onPressed: () {
-                  print("Pressed");
+                onPressed: () async {
+                  await supabase.auth.signOut();
                 })
           ],
         )
@@ -275,6 +276,39 @@ class CheckingComponent extends StatefulWidget {
 }
 
 class _CheckingComponentState extends State<CheckingComponent> {
+  Future<void> _insertCheckIn() async {
+    try {
+      final userId = supabase.auth.currentSession!.user.id;
+      final now = DateTime.now();
+
+      await supabase.from('CheckingRequestQueue').insert({
+        'employee_id': userId,
+        'checking_date': now.toIso8601String(),
+        'checking_time': "${now.hour}:${now.minute}",
+        'checking_type': "CHECKIN",
+        'checking_status': "PENDING"
+      });
+    } on PostgrestException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.message),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Unexpected error occurred'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -284,6 +318,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
       toggleColor: Colors.green.shade600,
       action: (controller) async {
         controller.loading(); //starts loading animation
+        await _insertCheckIn();
         await Future.delayed(const Duration(seconds: 3));
         controller.success(); //starts success animation
       },
