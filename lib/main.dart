@@ -1,4 +1,5 @@
 import 'package:PALMHR_MOBILE/screens/home/home.dart';
+import 'package:PALMHR_MOBILE/screens/onboarding/createAccount.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/login.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/register.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/welcome.dart';
@@ -61,6 +62,11 @@ final GoRouter _goRouter = GoRouter(
       name: '/register',
       builder: (context, state) => const RegisterScreen(),
     ),
+    GoRoute(
+      path: "/createAccount",
+      name: "/createAccount",
+      builder: (context, state) => const CreateAccount(),
+    ),
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
@@ -114,11 +120,21 @@ final GoRouter _goRouter = GoRouter(
       return null;
     }
 
+    if (state.matchedLocation == '/register') {
+      return null;
+    }
+
     if (!isLoggedIn) {
       return '/login';
     }
     if (isLoggedIn) {
-      return '/home';
+      return _checkProfileExists(context).then((exists) {
+        if (exists) {
+          return '/home';
+        } else {
+          return '/createAccount';
+        }
+      });
     }
     return null;
   },
@@ -148,5 +164,26 @@ void _onItemTapped(BuildContext context, int index) {
     case 2:
       context.go("/settings");
       break;
+  }
+}
+
+Future<bool> _checkProfileExists(BuildContext context) async {
+  try {
+    final userId = Supabase.instance.client.auth.currentSession!.user.id;
+    final data = await Supabase.instance.client
+        .from("EmployeeProfile")
+        .select()
+        .eq("profile_id", userId)
+        .single();
+
+    return data != null;
+  } catch (error) {
+    // Handle error or log it
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Error checking profile existence: $error"),
+      ),
+    );
+    return false;
   }
 }
