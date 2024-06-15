@@ -175,8 +175,7 @@ Future<bool> _checkProfileExists(BuildContext context) async {
         .select()
         .eq("profile_id", userId)
         .single();
-
-    return data != null;
+    return true;
   } catch (error) {
     // Handle error or log it
     ScaffoldMessenger.of(context).showSnackBar(

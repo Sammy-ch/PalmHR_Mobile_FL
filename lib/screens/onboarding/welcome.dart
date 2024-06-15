@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              colorFilter: ColorFilter.mode( Colors.black.withOpacity(0.5), BlendMode.darken),
+              colorFilter: ColorFilter.mode( Colors.black.withOpacity(0.8), BlendMode.darken),
               image: AssetImage("assets/skyscraper2.jpg"),
               fit: BoxFit.cover,
             )
@@ -28,12 +28,15 @@ class WelcomeScreen extends StatelessWidget {
                     width:double.infinity,
                     height: 60.0,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(20.0),
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(Colors.green.shade400)
+                          ),
                             onPressed: (){
                               context.goNamed("/home");
                             },
-                            child: Text("Get Started",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500)
+                            child: Text("Get Started",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.white),
                             )
                         )
                     )
