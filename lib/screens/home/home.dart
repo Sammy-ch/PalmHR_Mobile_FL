@@ -46,6 +46,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
   var _loading = true;
   String _firstName = '';
   String _lastName = '';
+  String _position = '';
+  String _profile = '';
 
   Future<void> _getProfile() async {
     setState(() {
@@ -56,12 +58,14 @@ class _HeaderComponentState extends State<HeaderComponent> {
       final userId = supabase.auth.currentSession!.user.id;
       final data = await supabase
           .from("EmployeeProfile")
-          .select()
+          .select("*")
           .eq("profile_id", userId)
           .single();
 
       _firstName = data['first_name'];
       _lastName = data['last_name'];
+      _position = data['position'];
+      _profile = data['profile_image'];
     } on PostgrestException catch (e) {
       if (mounted) {
         SnackBar(
@@ -109,16 +113,17 @@ class _HeaderComponentState extends State<HeaderComponent> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Good Morning,',
-                    style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey)),
-                Text(_firstName,
+
+                Text("$_firstName $_lastName",
                     style: GoogleFonts.roboto(
                         fontSize: 20,
                         fontWeight: FontWeight.normal,
                         color: Colors.white)),
+                Text(_position,
+                    style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey)),
               ],
             )
           ],

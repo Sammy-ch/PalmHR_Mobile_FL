@@ -137,7 +137,9 @@ class _loginFormState extends State<loginForm> {
                 style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.green.shade400)
                 ),
-                      onPressed: (){}, child: Text("Log In",style: GoogleFonts.roboto(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),))),
+                      onPressed: (){
+                  _signIn();
+                      }, child: Text("Log In",style: GoogleFonts.roboto(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),))),
             )
           ],
         )

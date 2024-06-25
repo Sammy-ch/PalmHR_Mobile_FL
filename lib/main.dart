@@ -45,7 +45,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 
 final GoRouter _goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: "/welcome",
+  initialLocation: "/login",
   routes: [
     GoRoute(
       path: '/welcome',
@@ -79,7 +79,7 @@ final GoRouter _goRouter = GoRouter(
               },
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home_max_rounded),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
@@ -133,7 +133,7 @@ final GoRouter _goRouter = GoRouter(
         if (exists) {
           return '/home';
         } else {
-          return '/home';
+          return '/createAccount';
         }
       });
     }
