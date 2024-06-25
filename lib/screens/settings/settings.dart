@@ -76,7 +76,7 @@ class _ProfileCardState extends State<ProfileCard> {
               Text("sammystcherubin@gmail.com")
             ],
           ),
-          SizedBox(width: 50.0),
+          const SizedBox(width: 50.0),
           IconButton(onPressed: (){}, icon: const Icon(Icons.logout,size: 45.0,))
         ],
       ),
@@ -102,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
           BigUserCard(
             backgroundColor: Colors.blueGrey,
             userName: "Alain Cherubin",
-            userProfilePic: AssetImage("assets/logo.png"),
+            userProfilePic: const AssetImage("assets/logo.png"),
             cardActionWidget: SettingsItem(
               icons: Icons.edit,
               iconStyle: IconStyle(

@@ -72,6 +72,7 @@ final GoRouter _goRouter = GoRouter(
         builder: (context, state, child) {
           return Scaffold(
             bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.black,
               currentIndex: _getSelectedIndex(state.matchedLocation),
               onTap: (index) {
                 _onItemTapped(context, index);
@@ -132,7 +133,7 @@ final GoRouter _goRouter = GoRouter(
         if (exists) {
           return '/home';
         } else {
-          return '/createAccount';
+          return '/home';
         }
       });
     }

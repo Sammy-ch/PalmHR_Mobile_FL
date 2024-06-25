@@ -15,7 +15,7 @@ class WelcomeScreen extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode( Colors.black.withOpacity(0.8), BlendMode.darken),
-              image: AssetImage("assets/skyscraper2.jpg"),
+              image: const AssetImage("assets/skyscraper2.jpg"),
               fit: BoxFit.cover,
             )
           ),
