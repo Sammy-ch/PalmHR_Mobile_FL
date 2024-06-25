@@ -131,6 +131,13 @@ final GoRouter _goRouter = GoRouter(
     if (isLoggedIn) {
       return _checkProfileExists(context).then((exists) {
         if (exists) {
+          if (state.matchedLocation == '/analytics') {
+            return null;
+          }
+
+          if (state.matchedLocation == '/settings') {
+            return null;
+          }
           return '/home';
         } else {
           return '/createAccount';
