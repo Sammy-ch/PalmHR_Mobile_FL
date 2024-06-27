@@ -4,15 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 enum CheckingType {
-  checkin,
-  checkout,
+  CHECKIN,
+  CHECKOUT,
 }
 
-enum CheckingStatus {
-  approved,
-  declined,
-  pending,
-}
+enum CheckingStatus { APPROVED, DECLINED, PENDING }
 
 Future<void> handleCheckIn(String myUserId) async {
   final currentTime = DateFormat('HH:mm').format(DateTime.now());
@@ -37,29 +33,21 @@ Future<void> handleCheckIn(String myUserId) async {
     }
 
     // Insert profile data into Supabase
-    final insertResponse = await supabase
-        .from('CheckingRequestQueue')
-        .insert([
-          {
-            'employee_id': myUserId,
-            'checking_time': currentTime,
-            'checking_type': CheckingType.checkin.toString().split('.')[1],
-            'checking_date': dayOfWeek,
-            'checking_status': CheckingStatus.pending.toString().split('.')[1]
-          }
-        ])
-        .eq('employee_id', myUserId);
+    final insertResponse = await supabase.from('CheckingRequestQueue').insert([
+      {
+        'employee_id': myUserId,
+        'checking_time': currentTime,
+        'checking_type': CheckingType.CHECKIN.toString().split('.')[1],
+        'checking_date': dayOfWeek,
+        'checking_status': CheckingStatus.PENDING.toString().split('.')[1]
+      }
+    ]).eq('employee_id', myUserId);
 
-    if (insertResponse.error != null) {
-      print('Error Checking In: ${insertResponse.error!.message}');
-    } else {
-      Fluttertoast.showToast(
-          msg: 'Check In Request Sent',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 5);
-      return insertResponse.data;
-    }
+    Fluttertoast.showToast(
+        msg: 'Check In Request Sent',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 5);
   } catch (error) {
     print('There was an error while checking you in: $error');
   }
@@ -79,8 +67,10 @@ Future<void> handleCheckOut(String myUserId) async {
 
     // If the User has Checked In then they can check Out
     if (response.isNotEmpty) {
-      final existingCheckout = response[0]['checkout_time']; // Get checkout time from first record
-      final attendanceId = response[0]['attendance_id']; // Get attendance id from first record
+      final existingCheckout =
+          response[0]['checkout_time']; // Get checkout time from first record
+      final attendanceId =
+          response[0]['attendance_id']; // Get attendance id from first record
 
       if (existingCheckout != null) {
         Fluttertoast.showToast(
@@ -98,9 +88,9 @@ Future<void> handleCheckOut(String myUserId) async {
               'id': attendanceId,
               'employee_id': myUserId,
               'checking_time': currentTime,
-              'checking_type': CheckingType.checkout.toString().split('.')[1],
+              'checking_type': CheckingType.CHECKOUT.toString().split('.')[1],
               'checking_date': dayOfWeek,
-              'checking_status': CheckingStatus.pending.toString().split('.')[1]
+              'checking_status': CheckingStatus.PENDING.toString()
             }
           ])
           .eq('employee_id', myUserId)
