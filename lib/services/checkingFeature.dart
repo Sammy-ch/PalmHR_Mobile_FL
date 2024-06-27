@@ -90,22 +90,17 @@ Future<void> handleCheckOut(String myUserId) async {
               'checking_time': currentTime,
               'checking_type': CheckingType.CHECKOUT.toString().split('.')[1],
               'checking_date': dayOfWeek,
-              'checking_status': CheckingStatus.PENDING.toString()
+              'checking_status': CheckingStatus.PENDING.toString().split('.')[1]
             }
           ])
           .eq('employee_id', myUserId)
           .eq('checking_date', dayOfWeek);
 
-      if (updateResponse.error != null) {
-        print('Error updating checkout time: ${updateResponse.error!.message}');
-      } else {
         Fluttertoast.showToast(
             msg: 'Check Out Request has been sent successfully',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.TOP,
-            timeInSecForIosWeb: 5);
-        return updateResponse.data;
-      }
+            timeInSecForIosWeb: 5);      
     } else {
       Fluttertoast.showToast(
           msg: 'Please make sure you have checked in first',
