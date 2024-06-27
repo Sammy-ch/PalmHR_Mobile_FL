@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:PALMHR_MOBILE/services/checkingFeature.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -113,7 +115,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Text("$_firstName $_lastName",
                     style: GoogleFonts.roboto(
                         fontSize: 20,
@@ -281,55 +282,74 @@ class CheckingComponent extends StatefulWidget {
 }
 
 class _CheckingComponentState extends State<CheckingComponent> {
-  Future<void> _insertCheckIn() async {
-    try {
-      final userId = supabase.auth.currentSession!.user.id;
-      final now = DateTime.now();
+  // Future<void> _insertCheckIn() async {
+  //   try {
+  //     final userId = supabase.auth.currentSession!.user.id;
+  //     final now = DateTime.now();
 
-      await supabase.from('CheckingRequestQueue').insert({
-        'employee_id': userId,
-        'checking_date': now.toIso8601String(),
-        'checking_time': "${now.hour}:${now.minute}",
-        'checking_type': "CHECKIN",
-        'checking_status': "PENDING"
-      });
-    } on PostgrestException catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Unexpected error occurred'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      }
-    }
-  }
+  //     await supabase.from('CheckingRequestQueue').insert({
+  //       'employee_id': userId,
+  //       'checking_date': now.toIso8601String(),
+  //       'checking_time': "${now.hour}:${now.minute}",
+  //       'checking_type': "CHECKIN",
+  //       'checking_status': "PENDING"
+  //     });
+  //   } on PostgrestException catch (e) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text(e.message),
+  //           backgroundColor: Theme.of(context).colorScheme.error,
+  //         ),
+  //       );
+  //     }
+  //   } catch (error) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: const Text('Unexpected error occurred'),
+  //           backgroundColor: Theme.of(context).colorScheme.error,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        child: ActionSlider.standard(
-      sliderBehavior: SliderBehavior.stretch,
-      backgroundColor: Colors.grey.shade800,
-      toggleColor: Colors.green.shade600,
-      action: (controller) async {
-        controller.loading(); //starts loading animation
-        await _insertCheckIn();
-        await Future.delayed(const Duration(seconds: 3));
-        controller.success(); //starts success animation
-      },
-      child:
-          Text("Slide to check In", style: GoogleFonts.poppins(fontSize: 18)),
-    ));
+    return Column(
+      children: [
+        SizedBox(
+            child: ActionSlider.standard(
+          sliderBehavior: SliderBehavior.stretch,
+          backgroundColor: Colors.grey.shade800,
+          toggleColor: Colors.green.shade600,
+          action: (controller) async {
+            controller.loading(); //starts loading animation
+            await handleCheckIn(userId);
+            await Future.delayed(const Duration(seconds: 3));
+            controller.success(); //starts success animation
+          },
+          child: Text("Slide to Check In",
+              style: GoogleFonts.poppins(fontSize: 18)),
+        )),
+        const Gap(20.0),
+        SizedBox(
+            child: ActionSlider.standard(
+          sliderBehavior: SliderBehavior.stretch,
+          backgroundColor: Colors.grey.shade800,
+          toggleColor: Colors.green.shade600,
+          action: (controller) async {
+            controller.loading(); //starts loading animation
+            await handleCheckOut(userId);
+            await Future.delayed(const Duration(seconds: 3));
+            controller.success(); //starts success animation
+          },
+          child: Text("Slide to Check Out",
+              style: GoogleFonts.poppins(fontSize: 18)),
+        )),
+      ],
+    );
   }
 }
 

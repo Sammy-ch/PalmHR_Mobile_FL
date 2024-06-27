@@ -23,6 +23,7 @@ Future<void> main() async {
 }
 
 final supabase = Supabase.instance.client;
+final userId = Supabase.instance.client.auth.currentSession!.user.id;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -177,7 +178,6 @@ void _onItemTapped(BuildContext context, int index) {
 
 Future<bool> _checkProfileExists(BuildContext context) async {
   try {
-    final userId = Supabase.instance.client.auth.currentSession!.user.id;
     final data = await Supabase.instance.client
         .from("EmployeeProfile")
         .select()
