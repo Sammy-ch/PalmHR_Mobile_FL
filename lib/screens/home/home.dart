@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:PALMHR_MOBILE/services/queries.dart';
 import 'package:PALMHR_MOBILE/main.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -159,6 +159,14 @@ class AttendanceAnalyticsComponent extends StatefulWidget {
 
 class _AttendanceAnalyticsComponentState
     extends State<AttendanceAnalyticsComponent> {
+  late Future<List<Map<String, dynamic>>> _attendanceAnalytics;
+
+  @override
+  void initState() {
+    super.initState();
+    _attendanceAnalytics = fetchClockingData(userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -170,103 +178,115 @@ class _AttendanceAnalyticsComponentState
                 style: GoogleFonts.lato(fontSize: 18, color: Colors.grey))),
         SizedBox(
           height: 150,
-          child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              GlassContainer.frostedGlass(
-                borderRadius: BorderRadius.circular(15),
-                width: 180,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const FaIcon(
-                              FontAwesomeIcons.personWalkingArrowRight),
-                          const SizedBox(width: 20),
-                          Text("Check In",
-                              style: GoogleFonts.poppins(fontSize: 18))
-                        ],
+          child: FutureBuilder<List<Map<String, dynamic>>>(
+            future: _attendanceAnalytics,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No data available'));
+              } else {
+                final attendanceData = snapshot.data!;
+                return ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    GlassContainer.frostedGlass(
+                      borderRadius: BorderRadius.circular(15),
+                      width: 180,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const FaIcon(
+                                    FontAwesomeIcons.personWalkingArrowRight),
+                                const SizedBox(width: 20),
+                                Text("Check In",
+                                    style: GoogleFonts.poppins(fontSize: 18))
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(attendanceData[0]['checkin_time'] ?? '--:--',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                            Text("On Time", style: GoogleFonts.montserrat())
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        height: 10,
+                    ),
+                    const SizedBox(width: 10),
+                    GlassContainer.frostedGlass(
+                      borderRadius: BorderRadius.circular(15),
+                      width: 180,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const FaIcon(FontAwesomeIcons
+                                    .personWalkingArrowLoopLeft),
+                                const SizedBox(width: 20),
+                                Text("Check Out",
+                                    style: GoogleFonts.poppins(fontSize: 18))
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(attendanceData[0]['checkout_time'] ?? '--:--',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                            Text("Go Home", style: GoogleFonts.montserrat())
+                          ],
+                        ),
                       ),
-                      Text("10:20 am",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 25, fontWeight: FontWeight.bold)),
-                      Text("On Time", style: GoogleFonts.montserrat())
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              GlassContainer.frostedGlass(
-                borderRadius: BorderRadius.circular(15),
-                width: 180,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const FaIcon(
-                              FontAwesomeIcons.personWalkingArrowLoopLeft),
-                          const SizedBox(width: 20),
-                          Text("Check Out",
-                              style: GoogleFonts.poppins(fontSize: 18))
-                        ],
+                    ),
+                    const SizedBox(width: 10),
+                    GlassContainer.frostedGlass(
+                      borderRadius: BorderRadius.circular(15),
+                      width: 180,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const FaIcon(
+                                    FontAwesomeIcons.personWalkingArrowRight),
+                                const SizedBox(width: 20),
+                                Text("Total Days",
+                                    style: GoogleFonts.poppins(fontSize: 18))
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                                attendanceData[0]['total_days']?.toString() ??
+                                    '0',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                            Text("Working Days",
+                                style: GoogleFonts.montserrat())
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text("07:20 pm",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 25, fontWeight: FontWeight.bold)),
-                      Text("Go Home", style: GoogleFonts.montserrat())
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              GlassContainer.frostedGlass(
-                borderRadius: BorderRadius.circular(15),
-                width: 180,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const FaIcon(
-                              FontAwesomeIcons.personWalkingArrowRight),
-                          const SizedBox(width: 20),
-                          Text("Total Days",
-                              style: GoogleFonts.poppins(fontSize: 18))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text("28",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 25, fontWeight: FontWeight.bold)),
-                      Text("Working Days", style: GoogleFonts.montserrat())
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 15),
-              GlassContainer.frostedGlass(
-                borderRadius: BorderRadius.circular(15),
-                width: 180,
-              ),
-              const SizedBox(width: 15),
-            ],
+                    ),
+                    const Gap(15),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ],

@@ -2,18 +2,18 @@ import 'package:PALMHR_MOBILE/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<List<Map<String, dynamic>>> fetchAttendanceHistory(
-    String historyId) async {
+    String employeeId) async {
   try {
     final response = await supabase
         .from('EmployeeAttendance')
         .select(
             'attendance_id,employee_id,checkin_time,checkout_time,checking_date,working_time')
-        .eq('employee_id', historyId)
+        .eq('employee_id', employeeId)
         .order('checking_date', ascending: false);
     return response;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return [];
   }
 }
 
@@ -31,7 +31,7 @@ Future<List<Map<String, dynamic>>> fetchClockingData(String historyId) async {
     return response;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return [];
   }
 }
 
@@ -44,7 +44,7 @@ Future<List<Map<String, dynamic>>> fetchUserData(String userIdKey) async {
     return response;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return [];
   }
 }
 
@@ -60,7 +60,7 @@ Future<int> fetchLateArrivalCount(String userIdKey) async {
     return response.count;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return int.parse('0');
   }
 }
 
@@ -75,7 +75,7 @@ Future<int> fetchOnTimeArrivalCount(String userIdKey) async {
     return response.count;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return int.parse('0');
   }
 }
 
@@ -89,7 +89,7 @@ Future<List<Map<String, dynamic>>> fetchDayOfWeekAndWorkHours(
     return response;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return [];
   }
 }
 
@@ -103,7 +103,7 @@ Future<List<Map<String, dynamic>>> leaveRequest(String userId) async {
     return response;
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return [];
   }
 }
 
@@ -146,7 +146,7 @@ Future<Object> fetchEmployeeAttendance(
     };
   } catch (e) {
     print('Exception details:\n $e');
-    throw const (e,);
+    return [];
   }
 }
 
