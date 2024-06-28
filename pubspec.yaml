@@ -36,4 +36,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/skyscraper2.jpg
+    - assets/skyscraper.jpg
     - assets/logo.png
