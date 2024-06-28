@@ -48,6 +48,11 @@ final GoRouter _goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: "/login",
   routes: [
+     GoRoute(
+            path: '/home',
+            name: '/home',
+            builder: (context, state) => const HomeScreen(),
+          ),
     GoRoute(
       path: '/welcome',
       name: '/welcome',
@@ -68,51 +73,51 @@ final GoRouter _goRouter = GoRouter(
       name: "/createAccount",
       builder: (context, state) => const CreateAccount(),
     ),
-    ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) {
-          return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: Colors.black,
-              currentIndex: _getSelectedIndex(state.matchedLocation),
-              onTap: (index) {
-                _onItemTapped(context, index);
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_max_rounded),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bar_chart_rounded),
-                  label: 'analytics',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'settings',
-                ),
-              ],
-            ),
-            body: child,
-          );
-        },
-        routes: [
-          GoRoute(
-            path: '/home',
-            name: '/home',
-            builder: (context, state) => const HomeScreen(),
-          ),
-          GoRoute(
-            path: '/analytics',
-            name: '/analytics',
-            builder: (context, state) => const AnalyticScreen(),
-          ),
-          GoRoute(
-            path: '/settings',
-            name: 'settings',
-            builder: (context, state) => const SettingScreen(),
-          ),
-        ]),
+    // ShellRoute(
+    //     navigatorKey: _shellNavigatorKey,
+    //     builder: (context, state, child) {
+    //       return Scaffold(
+    //         bottomNavigationBar: BottomNavigationBar(
+    //           backgroundColor: Colors.black,
+    //           currentIndex: _getSelectedIndex(state.matchedLocation),
+    //           onTap: (index) {
+    //             _onItemTapped(context, index);
+    //           },
+    //           items: const [
+    //             BottomNavigationBarItem(
+    //               icon: Icon(Icons.home_max_rounded),
+    //               label: 'Home',
+    //             ),
+    //             BottomNavigationBarItem(
+    //               icon: Icon(Icons.bar_chart_rounded),
+    //               label: 'analytics',
+    //             ),
+    //             BottomNavigationBarItem(
+    //               icon: Icon(Icons.settings),
+    //               label: 'settings',
+    //             ),
+    //           ],
+    //         ),
+    //         body: child,
+    //       );
+    //     },
+    //     routes: [
+    //       GoRoute(
+    //         path: '/home',
+    //         name: '/home',
+    //         builder: (context, state) => const HomeScreen(),
+    //       ),
+    //       GoRoute(
+    //         path: '/analytics',
+    //         name: '/analytics',
+    //         builder: (context, state) => const AnalyticScreen(),
+    //       ),
+    //       GoRoute(
+    //         path: '/settings',
+    //         name: 'settings',
+    //         builder: (context, state) => const SettingScreen(),
+    //       ),
+    //     ]),
   ],
   redirect: (context, state) {
     final session = Supabase.instance.client.auth.currentSession;

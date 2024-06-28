@@ -110,9 +110,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
             GFAvatar(
               backgroundColor: Colors.grey,
               shape: GFAvatarShape.standard,
-              backgroundImage: _profileImage.isNotEmpty
-                  ? NetworkImage(_profileImage)
-                  : null,
+              backgroundImage:
+                  _profileImage.isNotEmpty ? NetworkImage(_profileImage) : null,
               child: _profileImage.isEmpty
                   ? const Icon(
                       FontAwesomeIcons.user,
@@ -142,7 +141,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
         Row(
           children: [
             IconButton(
-              iconSize: 30,
+                iconSize: 30,
                 icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
                 onPressed: () async {
                   await supabase.auth.signOut();
@@ -153,8 +152,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
     );
   }
 }
-
-
 
 class AttendanceAnalyticsComponent extends StatefulWidget {
   const AttendanceAnalyticsComponent({super.key});
@@ -264,10 +261,13 @@ class _AttendanceAnalyticsComponentState
                     FutureBuilder<int>(
                       future: _workingDays,
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData) {
                           return const Center(child: Text('No data available'));
                         } else {
@@ -282,11 +282,12 @@ class _AttendanceAnalyticsComponentState
                                 children: [
                                   Row(
                                     children: [
-                                      const FaIcon(
-                                          FontAwesomeIcons.personWalkingArrowRight),
+                                      const FaIcon(FontAwesomeIcons
+                                          .personWalkingArrowRight),
                                       const SizedBox(width: 20),
                                       Text("Total Days",
-                                          style: GoogleFonts.poppins(fontSize: 18))
+                                          style:
+                                              GoogleFonts.poppins(fontSize: 18))
                                     ],
                                   ),
                                   const SizedBox(
@@ -294,7 +295,8 @@ class _AttendanceAnalyticsComponentState
                                   ),
                                   Text(totalWorkingDays.toString(),
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 25, fontWeight: FontWeight.bold)),
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold)),
                                   Text("Working Days",
                                       style: GoogleFonts.montserrat())
                                 ],
@@ -315,7 +317,6 @@ class _AttendanceAnalyticsComponentState
     );
   }
 }
-
 
 class CheckingComponent extends StatefulWidget {
   const CheckingComponent({super.key});
@@ -344,6 +345,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
             await handleCheckIn(userId);
             await Future.delayed(const Duration(seconds: 3));
             controller.success(); //starts success animation
+            controller.reset();
           },
           child: Text("Slide to Check In",
               style: GoogleFonts.poppins(fontSize: 18)),
@@ -364,6 +366,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
             await handleCheckOut(userId);
             await Future.delayed(const Duration(seconds: 3));
             controller.success(); //starts success animation
+            controller.reset();
           },
           child: Text("Slide to Check Out",
               style: GoogleFonts.poppins(fontSize: 18)),
@@ -386,7 +389,6 @@ class _AttendanceChartState extends State<AttendanceChart> {
     return const SizedBox();
   }
 }
-
 
 class AttendanceActivity extends StatefulWidget {
   const AttendanceActivity({super.key});
@@ -443,13 +445,18 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                   padding: const EdgeInsets.all(15.0),
                                   child: Row(
                                     children: [
-                                      const FaIcon(FontAwesomeIcons.buildingCircleCheck),
+                                      const FaIcon(
+                                          FontAwesomeIcons.buildingCircleCheck),
                                       const SizedBox(width: 20),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(attendance['checking_date'] ?? "N/A",
-                                              style: GoogleFonts.poppins(fontSize: 18)),
+                                          Text(
+                                              attendance['checking_date'] ??
+                                                  "N/A",
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 18)),
                                           Text("MIREGO AFRICA",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 10,
@@ -460,9 +467,11 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                         flex: 1,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
-                                          Text(attendance['attendance_tag'] ?? 'N/A'),
+                                          Text(attendance['attendance_tag'] ??
+                                              'N/A'),
                                           Text(
                                               "${attendance['checkin_time'] ?? '--:--'} - ${attendance['checkout_time'] ?? '--:--'}",
                                               style: GoogleFonts.montserrat())
