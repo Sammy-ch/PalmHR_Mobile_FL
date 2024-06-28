@@ -49,7 +49,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
   String _firstName = '';
   String _lastName = '';
   String _position = '';
-  String _profile = '';
+  String _profileImage = '';
 
   Future<void> _getProfile() async {
     setState(() {
@@ -67,19 +67,23 @@ class _HeaderComponentState extends State<HeaderComponent> {
       _firstName = data['first_name'];
       _lastName = data['last_name'];
       _position = data['position'];
-      _profile = data['profile_image'];
+      _profileImage = data['profile_image'];
     } on PostgrestException catch (e) {
       if (mounted) {
-        SnackBar(
-          content: Text(e.message),
-          backgroundColor: Theme.of(context).colorScheme.error,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.message),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
         );
       }
     } catch (error) {
       if (mounted) {
-        SnackBar(
-          content: const Text('Unexpected error occured'),
-          backgroundColor: Theme.of(context).colorScheme.error,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Unexpected error occurred'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
         );
       }
     } finally {
@@ -103,13 +107,18 @@ class _HeaderComponentState extends State<HeaderComponent> {
       children: [
         Row(
           children: [
-            const GFAvatar(
+            GFAvatar(
               backgroundColor: Colors.grey,
               shape: GFAvatarShape.standard,
-              child: Icon(
-                FontAwesomeIcons.user,
-                color: Colors.black45,
-              ),
+              backgroundImage: _profileImage.isNotEmpty
+                  ? NetworkImage(_profileImage)
+                  : null,
+              child: _profileImage.isEmpty
+                  ? const Icon(
+                      FontAwesomeIcons.user,
+                      color: Colors.black45,
+                    )
+                  : null,
             ),
             const SizedBox(width: 10),
             Column(
@@ -148,6 +157,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
     );
   }
 }
+
+
 
 class AttendanceAnalyticsComponent extends StatefulWidget {
   const AttendanceAnalyticsComponent({super.key});
