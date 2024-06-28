@@ -142,12 +142,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
         Row(
           children: [
             IconButton(
-                icon: const FaIcon(FontAwesomeIcons.bell),
-                onPressed: () {
-                  print("Pressed");
-                }),
-            IconButton(
-                icon: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
+              iconSize: 30,
+                icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
                 onPressed: () async {
                   await supabase.auth.signOut();
                 })
@@ -391,6 +387,7 @@ class _AttendanceChartState extends State<AttendanceChart> {
   }
 }
 
+
 class AttendanceActivity extends StatefulWidget {
   const AttendanceActivity({super.key});
 
@@ -399,6 +396,14 @@ class AttendanceActivity extends StatefulWidget {
 }
 
 class _AttendanceActivityState extends State<AttendanceActivity> {
+  late Future<List<Map<String, dynamic>>> _attendanceHistory;
+
+  @override
+  void initState() {
+    super.initState();
+    _attendanceHistory = fetchAttendanceHistory(userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -415,50 +420,70 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
               Text("Recent Activity",
                   style: GoogleFonts.lato(fontSize: 18.0, color: Colors.grey)),
               const SizedBox(height: 10),
-              SizedBox(
-                height: 150,
-                child: ListView(
-                  children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          children: [
-                            const FaIcon(FontAwesomeIcons.buildingCircleCheck),
-                            const SizedBox(width: 20),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("05-07-2024",
-                                    style: GoogleFonts.poppins(fontSize: 18)),
-                                Text("MIREGO AFRICA",
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w400))
-                              ],
-                            ),
-                            const Spacer(
-                              flex: 1,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const Text("Present"),
-                                Text("10:20 am - 07:20 pm",
-                                    style: GoogleFonts.montserrat())
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.grey.shade600,
-                      thickness: 0.5,
-                    )
-                  ],
+              Expanded(
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                  future: _attendanceHistory,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No data available'));
+                    } else {
+                      final attendanceData = snapshot.data!;
+                      return ListView.builder(
+                        itemCount: attendanceData.length,
+                        itemBuilder: (context, index) {
+                          final attendance = attendanceData[index];
+                          return Column(
+                            children: [
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Row(
+                                    children: [
+                                      const FaIcon(FontAwesomeIcons.buildingCircleCheck),
+                                      const SizedBox(width: 20),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(attendance['checking_date'] ?? "N/A",
+                                              style: GoogleFonts.poppins(fontSize: 18)),
+                                          Text("MIREGO AFRICA",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400))
+                                        ],
+                                      ),
+                                      const Spacer(
+                                        flex: 1,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text(attendance['attendance_tag'] ?? 'N/A'),
+                                          Text(
+                                              "${attendance['checkin_time'] ?? '--:--'} - ${attendance['checkout_time'] ?? '--:--'}",
+                                              style: GoogleFonts.montserrat())
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.grey.shade600,
+                                thickness: 0.5,
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
                 ),
-              )
+              ),
             ],
           ),
         ),

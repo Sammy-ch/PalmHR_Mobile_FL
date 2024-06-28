@@ -7,7 +7,7 @@ Future<List<Map<String, dynamic>>> fetchAttendanceHistory(
     final response = await supabase
         .from('EmployeeAttendance')
         .select(
-            'attendance_id,employee_id,checkin_time,checkout_time,checking_date,working_time')
+            'attendance_id,employee_id,checkin_time,checkout_time,checking_date,working_time,attendance_tag')
         .eq('employee_id', employeeId)
         .order('checking_date', ascending: false);
     return response;
