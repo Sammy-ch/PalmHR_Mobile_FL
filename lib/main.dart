@@ -123,11 +123,7 @@ final GoRouter _goRouter = GoRouter(
     final session = Supabase.instance.client.auth.currentSession;
     final isLoggedIn = session != null;
 
-    if (state.matchedLocation == '/welcome') {
-      return null;
-    }
-
-    if (state.matchedLocation == '/register') {
+    if (state.matchedLocation == '/welcome' || state.matchedLocation == '/register') {
       return null;
     }
 
