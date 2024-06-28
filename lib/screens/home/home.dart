@@ -160,11 +160,14 @@ class AttendanceAnalyticsComponent extends StatefulWidget {
 class _AttendanceAnalyticsComponentState
     extends State<AttendanceAnalyticsComponent> {
   late Future<List<Map<String, dynamic>>> _attendanceAnalytics;
+  late Future<int> _workingDays;
 
   @override
   void initState() {
     super.initState();
+    final userId = supabase.auth.currentSession!.user.id;
     _attendanceAnalytics = fetchClockingData(userId);
+    _workingDays = fetchTotalWorkingDays(userId);
   }
 
   @override
@@ -251,36 +254,48 @@ class _AttendanceAnalyticsComponentState
                       ),
                     ),
                     const SizedBox(width: 10),
-                    GlassContainer.frostedGlass(
-                      borderRadius: BorderRadius.circular(15),
-                      width: 180,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const FaIcon(
-                                    FontAwesomeIcons.personWalkingArrowRight),
-                                const SizedBox(width: 20),
-                                Text("Total Days",
-                                    style: GoogleFonts.poppins(fontSize: 18))
-                              ],
+                    FutureBuilder<int>(
+                      future: _workingDays,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData) {
+                          return const Center(child: Text('No data available'));
+                        } else {
+                          final totalWorkingDays = snapshot.data!;
+                          return GlassContainer.frostedGlass(
+                            borderRadius: BorderRadius.circular(15),
+                            width: 180,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const FaIcon(
+                                          FontAwesomeIcons.personWalkingArrowRight),
+                                      const SizedBox(width: 20),
+                                      Text("Total Days",
+                                          style: GoogleFonts.poppins(fontSize: 18))
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(totalWorkingDays.toString(),
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 25, fontWeight: FontWeight.bold)),
+                                  Text("Working Days",
+                                      style: GoogleFonts.montserrat())
+                                ],
+                              ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                                attendanceData[0]['total_days']?.toString() ??
-                                    '0',
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
-                            Text("Working Days",
-                                style: GoogleFonts.montserrat())
-                          ],
-                        ),
-                      ),
+                          );
+                        }
+                      },
                     ),
                     const Gap(15),
                   ],
@@ -294,6 +309,7 @@ class _AttendanceAnalyticsComponentState
   }
 }
 
+
 class CheckingComponent extends StatefulWidget {
   const CheckingComponent({super.key});
 
@@ -302,45 +318,17 @@ class CheckingComponent extends StatefulWidget {
 }
 
 class _CheckingComponentState extends State<CheckingComponent> {
-  // Future<void> _insertCheckIn() async {
-  //   try {
-  //     final userId = supabase.auth.currentSession!.user.id;
-  //     final now = DateTime.now();
-
-  //     await supabase.from('CheckingRequestQueue').insert({
-  //       'employee_id': userId,
-  //       'checking_date': now.toIso8601String(),
-  //       'checking_time': "${now.hour}:${now.minute}",
-  //       'checking_type': "CHECKIN",
-  //       'checking_status': "PENDING"
-  //     });
-  //   } on PostgrestException catch (e) {
-  //     if (mounted) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text(e.message),
-  //           backgroundColor: Theme.of(context).colorScheme.error,
-  //         ),
-  //       );
-  //     }
-  //   } catch (error) {
-  //     if (mounted) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: const Text('Unexpected error occurred'),
-  //           backgroundColor: Theme.of(context).colorScheme.error,
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
             child: ActionSlider.standard(
+          height: 70,
+          backgroundBorderRadius:
+              const BorderRadius.all(Radius.elliptical(10, 10)),
+          foregroundBorderRadius:
+              const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
           backgroundColor: Colors.grey.shade800,
           toggleColor: Colors.green.shade600,
@@ -356,9 +344,14 @@ class _CheckingComponentState extends State<CheckingComponent> {
         const Gap(20.0),
         SizedBox(
             child: ActionSlider.standard(
+          height: 70,
+          backgroundBorderRadius:
+              const BorderRadius.all(Radius.elliptical(10, 10)),
+          foregroundBorderRadius:
+              const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
           backgroundColor: Colors.grey.shade800,
-          toggleColor: Colors.green.shade600,
+          toggleColor: Colors.red,
           action: (controller) async {
             controller.loading(); //starts loading animation
             await handleCheckOut(userId);

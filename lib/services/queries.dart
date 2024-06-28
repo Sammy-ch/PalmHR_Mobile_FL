@@ -48,13 +48,13 @@ Future<List<Map<String, dynamic>>> fetchUserData(String userIdKey) async {
   }
 }
 
-Future<int> fetchLateArrivalCount(String userIdKey) async {
+Future<int> fetchTotalWorkingDays(String userIdKey) async {
   try {
     final response = await supabase
         .from('EmployeeAttendance')
-        .select('presence_tag')
+        .select('attendance_tag')
         .eq('employee_id', userIdKey)
-        .eq('presence_tag', 'LATE')
+        .eq('attendance_tag', 'PRESENT')
         .count(CountOption.exact);
 
     return response.count;
