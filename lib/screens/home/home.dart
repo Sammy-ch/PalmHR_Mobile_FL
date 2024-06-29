@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:PALMHR_MOBILE/services/checkingFeature.dart';
+import 'package:unicons/unicons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,11 +26,11 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               HeaderComponent(),
-              SizedBox(height: 25),
+              Gap(10),
               AttendanceAnalyticsComponent(),
-              SizedBox(height: 35),
+              Gap(10),
               CheckingComponent(),
-              SizedBox(height: 35),
+              Gap(25),
               AttendanceActivity()
             ],
           ),
@@ -126,11 +127,15 @@ class _HeaderComponentState extends State<HeaderComponent> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText("$_firstName $_lastName",
+                    maxFontSize: 22,
+                    minFontSize: 18,
                     style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.normal,
-                        )
+                        fontWeight: FontWeight.normal,)
+
                         ),
                 AutoSizeText(_position,
+                    maxFontSize: 20,
+                    minFontSize: 16,
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.normal,
                         color: Colors.grey)),
@@ -143,7 +148,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
           children: [
             IconButton(
                 iconSize: 30,
-                icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
+                icon: const Icon(UniconsLine.sign_out_alt),
                 onPressed: () async {
                   await supabase.auth.signOut();
                   if (mounted) {
@@ -418,7 +423,7 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode =  Theme.of(context).brightness == Brightness.dark;
-    final cardBackgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.grey.shade300;
+    final cardBackgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200;
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -456,19 +461,18 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                   padding: const EdgeInsets.all(15.0),
                                   child: Row(
                                     children: [
-                                      const FaIcon(
-                                          FontAwesomeIcons.buildingCircleCheck),
-                                      const SizedBox(width: 20),
+                                      const Icon(UniconsLine.user_check),
+                                      Gap(10),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          AutoSizeText(
                                               attendance['checking_date'] ??
                                                   "N/A",
                                               style: GoogleFonts.poppins(
                                                   fontSize: 18)),
-                                          Text("MIREGO AFRICA",
+                                          AutoSizeText("MIREGO AFRICA",
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w400))
@@ -481,9 +485,14 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: [
-                                          Text(attendance['attendance_tag'] ??
+                                          AutoSizeText(
+                                            maxFontSize: 18,
+                                            minFontSize: 16,
+                                              attendance['attendance_tag'] ??
                                               'N/A'),
-                                          Text(
+                                          AutoSizeText(
+                                              maxFontSize: 18,
+                                              minFontSize: 16,
                                               "${attendance['checkin_time'] ?? '--:--'} - ${attendance['checkout_time'] ?? '--:--'}",
                                               style: GoogleFonts.montserrat())
                                         ],
