@@ -128,7 +128,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
                     style: GoogleFonts.roboto(
                         fontSize: 20,
                         fontWeight: FontWeight.normal,
-                        color: Colors.white)),
+                        )
+                        ),
                 Text(_position,
                     style: GoogleFonts.roboto(
                         fontSize: 16,
@@ -332,6 +333,9 @@ class CheckingComponent extends StatefulWidget {
 class _CheckingComponentState extends State<CheckingComponent> {
   @override
   Widget build(BuildContext context) {
+        final isDarkMode =  Theme.of(context).brightness == Brightness.dark;
+    final sliderBackgroundColor = isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200;
+
     return Column(
       children: [
         SizedBox(
@@ -342,7 +346,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
           foregroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
-          backgroundColor: Colors.grey.shade800,
+          backgroundColor: sliderBackgroundColor,
           toggleColor: Colors.green.shade600,
           action: (controller) async {
             controller.loading(); //starts loading animation
@@ -363,7 +367,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
           foregroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
-          backgroundColor: Colors.grey.shade800,
+          backgroundColor: sliderBackgroundColor,
           toggleColor: Colors.red,
           action: (controller) async {
             controller.loading(); //starts loading animation
@@ -412,10 +416,12 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =  Theme.of(context).brightness == Brightness.dark;
+    final cardBackgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.grey.shade300;
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.shade900,
+          color: cardBackgroundColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(

@@ -10,7 +10,6 @@ enum CheckingType {
 }
 
 enum CheckingStatus { APPROVED, DECLINED, PENDING }
-
 Future<void> handleCheckIn(String myUserId) async {
   final currentTime = DateFormat('HH:mm').format(DateTime.now());
   final dayOfWeek = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -34,6 +33,25 @@ Future<void> handleCheckIn(String myUserId) async {
       return;
     }
 
+    // Check if a check-in request is already pending for the current day
+    final pendingRequest = await supabase
+        .from('CheckingRequestQueue')
+        .select('*')
+        .eq('employee_id', myUserId)
+        .eq('checking_date', dayOfWeek)
+        .eq('checking_type', CheckingType.CHECKIN.toString().split('.')[1])
+        .eq('checking_status', CheckingStatus.PENDING.toString().split('.')[1]);
+
+    if (pendingRequest.isNotEmpty) {
+      Fluttertoast.showToast(
+          msg: 'Please wait for checking approval',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Colors.deepOrange,
+          timeInSecForIosWeb: 5);
+      return;
+    }
+
     // Insert profile data into Supabase
     final insertResponse = await supabase.from('CheckingRequestQueue').insert([
       {
@@ -43,7 +61,7 @@ Future<void> handleCheckIn(String myUserId) async {
         'checking_date': dayOfWeek,
         'checking_status': CheckingStatus.PENDING.toString().split('.')[1]
       }
-    ]).eq('employee_id', myUserId);
+    ]);
 
     Fluttertoast.showToast(
         msg: 'Check In Request Sent',
@@ -81,6 +99,25 @@ Future<void> handleCheckOut(String myUserId) async {
             toastLength: Toast.LENGTH_LONG,
             backgroundColor: Colors.deepOrange,
             gravity: ToastGravity.TOP,
+            timeInSecForIosWeb: 5);
+        return;
+      }
+
+      // Check if a check-out request is already pending for the current day
+      final pendingRequest = await supabase
+          .from('CheckingRequestQueue')
+          .select('*')
+          .eq('employee_id', myUserId)
+          .eq('checking_date', dayOfWeek)
+          .eq('checking_type', CheckingType.CHECKOUT.toString().split('.')[1])
+          .eq('checking_status', CheckingStatus.PENDING.toString().split('.')[1]);
+
+      if (pendingRequest.isNotEmpty) {
+        Fluttertoast.showToast(
+            msg: 'Please wait for checking approval',
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.TOP,
+            backgroundColor: Colors.deepOrange,
             timeInSecForIosWeb: 5);
         return;
       }
