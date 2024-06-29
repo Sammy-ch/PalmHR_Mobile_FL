@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               HeaderComponent(),
-              Gap(10),
+              Gap(20),
               AttendanceAnalyticsComponent(),
               Gap(10),
               CheckingComponent(),
