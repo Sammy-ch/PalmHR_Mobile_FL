@@ -192,7 +192,7 @@ class _loginFormState extends State<loginForm> {
                 ),
                 Gap(50),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(20.0),
                   child: SizedBox(
                       width: double.infinity,
                       height: 60.0,

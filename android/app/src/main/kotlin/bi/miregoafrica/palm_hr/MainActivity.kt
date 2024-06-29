@@ -1,4 +1,4 @@
-package com.example.apex_time_sync_flutter
+package bi.miregoafrica.palm_hr
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -26,6 +26,7 @@ dependencies:
   supabase_flutter: ^2.0.0
   wolt_modal_sheet: ^0.4.1
   envied: ^0.5.4+1
+  package_rename: ^1.7.0
 
 
 dev_dependencies:
@@ -41,3 +42,11 @@ flutter:
     - assets/skyscraper2.jpg
     - assets/skyscraper.jpg
     - assets/logo.png
+
+
+
+package_rename_config:
+  android:
+    app_name: PALM HR
+    package_name: bi.miregoafrica.palm_hr
+    override_old_package: com.example.apex_time_sync_flutter
