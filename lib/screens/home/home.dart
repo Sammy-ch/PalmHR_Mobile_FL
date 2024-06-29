@@ -185,9 +185,8 @@ class _AttendanceAnalyticsComponentState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-            height: 30,
             child: Text("Latest Attendance",
-                style: GoogleFonts.lato(fontSize: 18, color: Colors.grey))),
+                style: GoogleFonts.lato(fontSize: 18, color: Colors.grey.shade700))),
         SizedBox(
           height: 150,
           child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -340,6 +339,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
       children: [
         SizedBox(
             child: ActionSlider.standard(
+              icon: FaIcon(Icons.chevron_right_sharp,size: 40,) ,
           height: 70,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
@@ -361,6 +361,8 @@ class _CheckingComponentState extends State<CheckingComponent> {
         const Gap(20.0),
         SizedBox(
             child: ActionSlider.standard(
+                            icon: FaIcon(Icons.chevron_right_sharp,size: 40,) ,
+
           height: 70,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
@@ -430,7 +432,7 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Recent Activity",
-                  style: GoogleFonts.lato(fontSize: 18.0, color: Colors.grey)),
+                  style: GoogleFonts.lato(fontSize: 18.0,)),
               const SizedBox(height: 10),
               Expanded(
                 child: FutureBuilder<List<Map<String, dynamic>>>(
