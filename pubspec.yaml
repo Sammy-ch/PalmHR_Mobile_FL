@@ -27,6 +27,8 @@ dependencies:
   wolt_modal_sheet: ^0.4.1
   envied: ^0.5.4+1
   package_rename: ^1.7.0
+  auto_size_text: ^3.0.0
+  unicons: ^2.1.2
 
 
 dev_dependencies:

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:PALMHR_MOBILE/services/queries.dart';
 import 'package:PALMHR_MOBILE/main.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:glass_kit/glass_kit.dart';
@@ -124,15 +125,13 @@ class _HeaderComponentState extends State<HeaderComponent> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("$_firstName $_lastName",
+                AutoSizeText("$_firstName $_lastName",
                     style: GoogleFonts.roboto(
-                        fontSize: 20,
                         fontWeight: FontWeight.normal,
                         )
                         ),
-                Text(_position,
+                AutoSizeText(_position,
                     style: GoogleFonts.roboto(
-                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                         color: Colors.grey)),
               ],

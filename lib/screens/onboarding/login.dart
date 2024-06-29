@@ -1,4 +1,5 @@
 import 'package:PALMHR_MOBILE/main.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -114,10 +115,10 @@ class _loginFormState extends State<loginForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            AutoSizeText(
               "Sign in to your account",
               style: GoogleFonts.notoSans(
-                fontSize: 25.0,
+                fontSize: 20.0,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -142,10 +143,10 @@ class _loginFormState extends State<loginForm> {
                   ),
                   controller: _emailController,
                   decoration: InputDecoration(
+                    isDense: true,
                       icon: const FaIcon(
                         Icons.mail_rounded,
                         size: 30,
-                        color: Colors.green,
                       ),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
@@ -155,8 +156,9 @@ class _loginFormState extends State<loginForm> {
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide:
-                              const BorderSide(color: Colors.grey)),
+                          borderSide: BorderSide.none
+
+                      ),
                       labelText: "Email",
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
@@ -173,17 +175,18 @@ class _loginFormState extends State<loginForm> {
                   obscureText: true,
                   controller: _passwordController,
                   decoration: InputDecoration(
+                    isDense: true,
                       icon: const FaIcon(
                         Icons.lock_outline,
                         size: 30,
-                        color: Colors.green,
                       ),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(width: 2, color: Colors.green),
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderSide: BorderSide.none
+                      ),
                       labelText: "Password",
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
@@ -192,21 +195,21 @@ class _loginFormState extends State<loginForm> {
                 ),
                 Gap(50),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(10.0),
                   child: SizedBox(
                       width: double.infinity,
-                      height: 60.0,
+                      height: 50.0,
                       child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
-                                  Colors.green.shade500)),
+                                  Colors.black)),
                           onPressed: () {
                             _signIn();
                           },
-                          child: Text(
+                          child: AutoSizeText(
                             "Login",
                             style: GoogleFonts.roboto(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ))),
