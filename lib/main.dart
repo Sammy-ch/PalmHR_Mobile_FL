@@ -72,11 +72,13 @@ final GoRouter _goRouter = GoRouter(
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
+          final isDarkMode =  Theme.of(context).brightness == Brightness.dark;
+          final bottomNavColor = isDarkMode ? Colors.black : Colors.grey.shade200;
           return Scaffold(
             extendBody: true,
             bottomNavigationBar: DotNavigationBar(
               selectedItemColor: Colors.green.shade800,
-              backgroundColor: Colors.black,
+              backgroundColor: bottomNavColor,
               currentIndex: _getSelectedIndex(state.matchedLocation),
               onTap: (index) {
                 _onItemTapped(context, index);

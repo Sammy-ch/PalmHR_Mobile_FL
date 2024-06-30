@@ -8,21 +8,17 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                SettingHeader(),
-                SettingsPage()
-              ],
-            ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
+            children: [SettingHeader(), SettingsPage()],
           ),
         ),
+      ),
     );
   }
 }
-
 
 class SettingHeader extends StatefulWidget {
   const SettingHeader({super.key});
@@ -38,7 +34,8 @@ class _SettingHeaderState extends State<SettingHeader> {
       padding: EdgeInsets.only(bottom: 20.0),
       child: Row(
         children: [
-          Text("Settings",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold))
+          Text("Settings",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -58,26 +55,34 @@ class _ProfileCardState extends State<ProfileCard> {
     return Container(
       height: 120,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       decoration: const BoxDecoration(
-        color: Colors.grey,
-          borderRadius: BorderRadius.all(Radius.circular(10.0))
-      ),
+          color: Colors.grey,
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: Row(
         children: [
-          const Icon(Icons.account_box_outlined,size: 50.0,),
+          const Icon(
+            Icons.account_box_outlined,
+            size: 50.0,
+          ),
           const SizedBox(width: 15.0),
-          const  Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Alain Cherubin",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+              Text("Alain Cherubin",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 10.0),
               Text("sammystcherubin@gmail.com")
             ],
           ),
           const SizedBox(width: 50.0),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.logout,size: 45.0,))
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.logout,
+                size: 45.0,
+              ))
         ],
       ),
     );
@@ -92,15 +97,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  ThemeMode themeMode = ThemeMode.system;
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
+    return SizedBox(
       height: 700,
       child: ListView(
         children: [
           // User card
           BigUserCard(
-            backgroundColor: Colors.blueGrey,
+            cardRadius: 20,
+            backgroundColor: Colors.green,
             userName: "Alain Cherubin",
             userProfilePic: const AssetImage("assets/logo.png"),
             cardActionWidget: SettingsItem(
@@ -111,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 backgroundColor: Colors.black,
               ),
               title: "Modify",
-              subtitle: "Tap to change your data",
+              subtitle: "Tap to change your details",
               onTap: () {
                 print("OK");
               },
@@ -120,14 +127,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsGroup(
             items: [
               SettingsItem(
-                onTap: () {},
-                icons: CupertinoIcons.pencil_outline,
-                iconStyle: IconStyle(),
-                title: 'Appearance',
-                subtitle: "Make Ziar'App yours",
-              ),
-              SettingsItem(
-                onTap: () {},
                 icons: Icons.dark_mode_rounded,
                 iconStyle: IconStyle(
                   iconsColor: Colors.white,
@@ -138,7 +137,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 subtitle: "Automatic",
                 trailing: Switch.adaptive(
                   value: false,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                  },
                 ),
               ),
             ],
@@ -152,7 +152,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   backgroundColor: Colors.purple,
                 ),
                 title: 'About',
-                subtitle: "Learn more about Ziar'App",
+                subtitle: "Learn more about PALM HR",
               ),
             ],
           ),
@@ -167,7 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               SettingsItem(
                 onTap: () {},
-                icons: CupertinoIcons.delete_solid,
+                icons: Icons.delete_forever,
                 title: "Delete account",
                 titleStyle: const TextStyle(
                   color: Colors.red,

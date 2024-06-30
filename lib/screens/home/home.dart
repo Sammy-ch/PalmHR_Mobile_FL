@@ -343,7 +343,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
       children: [
         SizedBox(
             child: ActionSlider.standard(
-              icon: const FaIcon(Icons.chevron_right_sharp,size: 40,) ,
+              icon: const FaIcon(Icons.chevron_right_sharp,size: 40,color:Colors.white) ,
           height: 70,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
@@ -365,8 +365,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
         const Gap(20.0),
         SizedBox(
             child: ActionSlider.standard(
-                            icon: const FaIcon(Icons.chevron_right_sharp,size: 40,) ,
-
+              icon: const FaIcon(Icons.chevron_right_sharp,size: 40,color: Colors.white) ,
           height: 70,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
@@ -374,7 +373,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
               const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
           backgroundColor: sliderBackgroundColor,
-          toggleColor: Colors.red,
+          toggleColor: Colors.orange,
           action: (controller) async {
             controller.loading(); //starts loading animation
             await handleCheckOut(userId);
