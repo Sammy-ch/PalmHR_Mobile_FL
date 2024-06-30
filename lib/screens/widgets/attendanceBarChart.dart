@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
+
 class BarChartSample2 extends StatefulWidget {
   const BarChartSample2({super.key});
   final Color leftBarColor = Colors.yellow;
@@ -32,6 +34,8 @@ class BarChartSample2State extends State<BarChartSample2> {
     final barGroup5 = makeGroupData(4, 17, 6);
     final barGroup6 = makeGroupData(5, 19, 1.5);
     final barGroup7 = makeGroupData(6, 10, 1.5);
+
+
 
     final items = [
       barGroup1,

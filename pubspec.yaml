@@ -33,6 +33,7 @@ dependencies:
 
 
   intl: any
+  graphic: ^2.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

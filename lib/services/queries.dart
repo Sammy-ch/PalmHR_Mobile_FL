@@ -1,6 +1,6 @@
 import 'package:PALMHR_MOBILE/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:intl/intl.dart';
 Future<List<Map<String, dynamic>>> fetchAttendanceHistory(
     String employeeId) async {
   try {
@@ -107,48 +107,6 @@ Future<List<Map<String, dynamic>>> leaveRequest(String userId) async {
   }
 }
 
-Future<Object> fetchEmployeeAttendance(
-    String employeeId, int month, int year) async {
-  final startDate = DateTime(year, month);
-  final endDate = DateTime(year, month + 1).subtract(const Duration(days: 1));
-
-  final earlyArrivals = <String>[];
-  final lateDepartures = <String>[];
-  try {
-    final response = await supabase
-        .from('employee_attendance')
-        .select('checking_date, checking_time, attendance_tag')
-        .eq('employee_id', employeeId)
-        .gte('checking_date', startDate)
-        .lte('checking_date', endDate);
-
-    for (final attendance in response) {
-      final checkingDate = DateTime.parse(attendance['checking_date']);
-      final checkingTime = DateTime.parse(attendance['checking_time']);
-
-      final expectedCheckinTime =
-          DateTime(checkingDate.year, checkingDate.month, checkingDate.day, 9);
-      final expectedCheckoutTime =
-          DateTime(checkingDate.year, checkingDate.month, checkingDate.day, 17);
-
-      if (attendance['attendance_tag'] == 'PRESENT') {
-        if (checkingTime.isBefore(expectedCheckinTime)) {
-          earlyArrivals.add(attendance['checking_date']);
-        } else if (checkingTime.isAfter(expectedCheckoutTime)) {
-          lateDepartures.add(attendance['checking_date']);
-        }
-      }
-    }
-
-    return {
-      'earlyArrivals': earlyArrivals,
-      'lateDepartures': lateDepartures,
-    };
-  } catch (e) {
-    print('Exception details:\n $e');
-    return [];
-  }
-}
 
 Future<Map<String, double>> calculateAttendancePercentages(
     String employeeId) async {
@@ -189,4 +147,41 @@ Future<Map<String, double>> calculateAttendancePercentages(
     'onTimePercentage': onTimePercentage,
     'latePercentage': latePercentage,
   };
+}
+
+
+
+
+Future<Map<String, int>> calculateEarlyAndLateArrivals(String employeeId) async {
+  try {
+    final response = await supabase
+        .from('EmployeeAttendance')
+        .select('checkin_time')
+        .eq('employee_id', employeeId);
+
+    int earlyCount = 0;
+    int lateCount = 0;
+
+    for (var record in response) {
+      final checkinTime = DateFormat('HH:mm').parse(record['checkin_time']);
+      final nineAM = DateFormat('HH:mm').parse('09:00');
+
+      if (checkinTime.isBefore(nineAM)) {
+        earlyCount++;
+      } else {
+        lateCount++;
+      }
+    }
+
+    return {
+      'earlyCount': earlyCount,
+      'lateCount': lateCount,
+    };
+  } catch (e) {
+    print('Exception details:\n $e');
+    return {
+      'earlyCount': 0,
+      'lateCount': 0,
+    };
+  }
 }
