@@ -430,12 +430,12 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Recent Activity",
-                  style: GoogleFonts.lato(fontSize: 18.0,)),
+                  style: GoogleFonts.lato(fontSize: 16.0,)),
               const SizedBox(height: 10),
               Expanded(
                 child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -469,12 +469,11 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                           AutoSizeText(
                                               attendance['checking_date'] ??
                                                   "N/A",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 18)),
-                                          AutoSizeText("MIREGO AFRICA",
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400))
+                                              style: GoogleFonts.poppins()),
+                                              AutoSizeText(
+                                                  "MIREGO AFRICA",
+                                              style: GoogleFonts.poppins())
+                                  
                                         ],
                                       ),
                                       const Spacer(
@@ -485,13 +484,10 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                             CrossAxisAlignment.end,
                                         children: [
                                           AutoSizeText(
-                                            maxFontSize: 18,
-                                            minFontSize: 16,
                                               attendance['attendance_tag'] ??
                                               'N/A'),
+                                              Gap(10),
                                           AutoSizeText(
-                                              maxFontSize: 18,
-                                              minFontSize: 16,
                                               "${attendance['checkin_time'] ?? '--:--'} - ${attendance['checkout_time'] ?? '--:--'}",
                                               style: GoogleFonts.montserrat())
                                         ],

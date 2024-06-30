@@ -11,8 +11,10 @@ class SettingScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(15.0),
-          child: Column(
-            children: [SettingHeader(), SettingsPage()],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [SettingHeader(), SettingsPage()],
+            ),
           ),
         ),
       ),
@@ -35,7 +37,7 @@ class _SettingHeaderState extends State<SettingHeader> {
       child: Row(
         children: [
           Text("Settings",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -98,6 +100,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   ThemeMode themeMode = ThemeMode.system;
+  ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -136,8 +140,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: 'Dark mode',
                 subtitle: "Automatic",
                 trailing: Switch.adaptive(
-                  value: false,
+                  value: themeMode == ThemeMode.dark,
                   onChanged: (value) {
+                    setState(() {
+                      themeMode = value ? ThemeMode.dark : ThemeMode.light;
+                      themeNotifier.value = themeMode;
+                    });
                   },
                 ),
               ),
@@ -182,4 +190,25 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
+void main() {
+  runApp(MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (_, ThemeMode currentMode, __) {
+        return MaterialApp(
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: currentMode,
+          home: const SettingScreen(),
+        );
+      },
+    );
+  }
+}

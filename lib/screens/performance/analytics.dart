@@ -42,11 +42,11 @@ class _AnalyticHeaderState extends State<AnalyticHeader> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(
-            child: Text("Performance",
-                style: GoogleFonts.dmSans(
-                    fontSize: 25, fontWeight: FontWeight.bold))),
+        Text("Performance",
+            style: GoogleFonts.dmSans(
+                fontSize: 25, fontWeight: FontWeight.bold)),
         EasyDateTimeLine(
           headerProps: const EasyHeaderProps(
             selectedDateStyle: TextStyle(fontSize: 18),
@@ -94,7 +94,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text("Attendance Percentage",
                           style: GoogleFonts.dmSans(
-                            fontSize: 25,
+                            fontSize: 20,
                           )),
                     )),
               ),
@@ -109,7 +109,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text("Total Days Absent",
                               style: GoogleFonts.dmSans(
-                                fontSize: 25,
+                                fontSize: 20,
                               )),
                         )),
                     const SizedBox(height: 15),
@@ -120,7 +120,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text("Additional Metrics",
                               style: GoogleFonts.dmSans(
-                                fontSize: 25,
+                                fontSize: 20,
                               )),
                         )),
                   ],
