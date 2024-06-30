@@ -343,7 +343,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
       children: [
         SizedBox(
             child: ActionSlider.standard(
-              icon: FaIcon(Icons.chevron_right_sharp,size: 40,) ,
+              icon: const FaIcon(Icons.chevron_right_sharp,size: 40,) ,
           height: 70,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
@@ -365,7 +365,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
         const Gap(20.0),
         SizedBox(
             child: ActionSlider.standard(
-                            icon: FaIcon(Icons.chevron_right_sharp,size: 40,) ,
+                            icon: const FaIcon(Icons.chevron_right_sharp,size: 40,) ,
 
           height: 70,
           backgroundBorderRadius:
@@ -462,7 +462,7 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                   child: Row(
                                     children: [
                                       const Icon(UniconsLine.user_check),
-                                      Gap(10),
+                                      const Gap(10),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,

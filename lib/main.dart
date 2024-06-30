@@ -7,10 +7,11 @@ import 'package:PALMHR_MOBILE/screens/performance/analytics.dart';
 import 'package:PALMHR_MOBILE/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:PALMHR_MOBILE/env/env.dart';
-
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -72,23 +73,26 @@ final GoRouter _goRouter = GoRouter(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
           return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
+            extendBody: true,
+            bottomNavigationBar: DotNavigationBar(
+              selectedItemColor: Colors.green.shade800,
+              backgroundColor: Colors.black,
               currentIndex: _getSelectedIndex(state.matchedLocation),
               onTap: (index) {
                 _onItemTapped(context, index);
               },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_max_rounded),
-                  label: 'Home',
+              items: <DotNavigationBarItem> [
+                DotNavigationBarItem(
+                  icon: const FaIcon(FontAwesomeIcons.house,
+                  size: 25,
+                  ),
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bar_chart_rounded),
-                  label: 'analytics',
+                DotNavigationBarItem(
+                  icon: const Icon(Icons.bar_chart_rounded,
+                    size: 25,),
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'settings',
+                DotNavigationBarItem(
+                  icon: const Icon(Icons.settings,size: 25,),
                 ),
               ],
             ),

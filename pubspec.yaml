@@ -29,8 +29,10 @@ dependencies:
   package_rename: ^1.7.0
   auto_size_text: ^3.0.0
   unicons: ^2.1.2
+  dot_navigation_bar: ^1.0.2
 
 
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

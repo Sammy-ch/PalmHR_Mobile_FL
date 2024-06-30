@@ -1,11 +1,9 @@
 import 'package:PALMHR_MOBILE/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:modular_ui/modular_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:gap/gap.dart';
 
@@ -32,10 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Gap(15),
+                const Gap(15),
                 Image.asset("assets/logo.png", scale: 7),
-                Gap(80),
-                loginForm(),
+                const Gap(80),
+                const loginForm(),
               ],
             ),
           ),
@@ -108,7 +106,7 @@ class _loginFormState extends State<loginForm> {
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 10.0,
-              offset: Offset(0, 5),
+              offset: const Offset(0, 5),
             ),
           ],
         ),
@@ -160,7 +158,7 @@ class _loginFormState extends State<loginForm> {
 
                       ),
                       labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.black),
+                      labelStyle: const TextStyle(color: Colors.black),
                       filled: true,
                       fillColor: Colors.grey.shade100,
                       ),
@@ -188,12 +186,12 @@ class _loginFormState extends State<loginForm> {
                         borderSide: BorderSide.none
                       ),
                       labelText: "Password",
-                      labelStyle: TextStyle(color: Colors.black),
+                      labelStyle: const TextStyle(color: Colors.black),
                       filled: true,
                       fillColor: Colors.grey.shade100,
                       ),
                 ),
-                Gap(50),
+                const Gap(50),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: SizedBox(

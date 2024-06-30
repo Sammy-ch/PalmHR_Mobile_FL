@@ -110,7 +110,7 @@ Future<List<Map<String, dynamic>>> leaveRequest(String userId) async {
 Future<Object> fetchEmployeeAttendance(
     String employeeId, int month, int year) async {
   final startDate = DateTime(year, month);
-  final endDate = DateTime(year, month + 1).subtract(Duration(days: 1));
+  final endDate = DateTime(year, month + 1).subtract(const Duration(days: 1));
 
   final earlyArrivals = <String>[];
   final lateDepartures = <String>[];

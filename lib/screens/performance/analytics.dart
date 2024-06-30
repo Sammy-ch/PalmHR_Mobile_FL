@@ -3,7 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:glass_kit/glass_kit.dart';
-import 'package:fl_chart/fl_chart.dart';
+
+
 class AnalyticScreen extends StatelessWidget {
   const AnalyticScreen({super.key});
 
