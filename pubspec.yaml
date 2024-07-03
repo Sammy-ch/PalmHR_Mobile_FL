@@ -34,6 +34,8 @@ dependencies:
 
   intl: any
   graphic: ^2.2.1
+  modal_bottom_sheet: ^3.0.0
+  calendar_date_picker2: ^1.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
