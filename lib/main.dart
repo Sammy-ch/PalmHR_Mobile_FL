@@ -1,4 +1,5 @@
 import 'package:PALMHR_MOBILE/screens/home/home.dart';
+import 'package:PALMHR_MOBILE/screens/leaveRequest/leaveRequest.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/createAccount.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/login.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/register.dart';
@@ -93,6 +94,10 @@ final GoRouter _goRouter = GoRouter(
                   icon: const Icon(Icons.bar_chart_rounded,
                     size: 25,),
                 ),
+                 DotNavigationBarItem(
+                  icon: const Icon(Icons.swipe_left_alt_outlined,
+                    size: 25,),
+                ),
                 DotNavigationBarItem(
                   icon: const Icon(Icons.settings,size: 25,),
                 ),
@@ -112,6 +117,11 @@ final GoRouter _goRouter = GoRouter(
             name: '/analytics',
             builder: (context, state) => const AnalyticScreen(),
           ),
+          GoRoute(
+            path: '/leave',
+            name: '/leave',
+            builder: (context, state) => const LeaveRequestScreen(),
+             ),
           GoRoute(
             path: '/settings',
             name: 'settings',
@@ -137,6 +147,9 @@ final GoRouter _goRouter = GoRouter(
           if (state.matchedLocation == '/analytics') {
             return null;
           }
+          if (state.matchedLocation == '/leave') {
+            return null;
+          }
 
           if (state.matchedLocation == '/settings') {
             return null;
@@ -158,8 +171,11 @@ int _getSelectedIndex(String location) {
   if (location.startsWith("/analytics")) {
     return 1;
   }
-  if (location.startsWith("/settings")) {
+  if (location.startsWith("/leave")) {
     return 2;
+  }
+  if (location.startsWith("/settings")) {
+    return 3;
   }
   return 0;
 }
@@ -173,6 +189,9 @@ void _onItemTapped(BuildContext context, int index) {
       context.go("/analytics");
       break;
     case 2:
+      context.go("/leave");
+      break;
+    case 3:
       context.go("/settings");
       break;
   }
