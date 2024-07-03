@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
+import 'package:scrollable_clean_calendar/scrollable_clean_calendar.dart';
+import 'package:scrollable_clean_calendar/utils/enums.dart';
+import 'package:intl/intl.dart';
 
 class LeaveRequestScreen extends StatefulWidget {
   const LeaveRequestScreen({super.key});
@@ -113,24 +117,54 @@ class NewLeaveRequest extends StatefulWidget {
 }
 
 class _NewLeaveRequestState extends State<NewLeaveRequest> {
+  DateTime? _firstDate;
+  DateTime? _secondDate;
   @override
   Widget build(BuildContext context) {
+    final calendarController = CleanCalendarController(
+      minDate: DateTime.now(),
+      maxDate: DateTime.now().add(const Duration(days: 365)),
+      onRangeSelected: (firstDate, secondDate) {
+        firstDate;
+        secondDate;
+        // setState(() {
+        //   _firstDate = firstDate;
+        //   _secondDate = secondDate;
+        // });
+      },
+      onDayTapped: (date) {},
+      // readOnly: true,
+      onPreviousMinDateTapped: (date) {},
+      onAfterMaxDateTapped: (date) {},
+      weekdayStart: DateTime.monday,
+      // initialFocusDate: DateTime.now(),
+      // initialDateSelected: DateTime.now(),
+      // endDateSelected: DateTime(2022, 3, 20),
+    );
+
+    final isDarkMode =  Theme.of(context).brightness == Brightness.dark;
+    final ModalBackgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200;
     return Container(
+      decoration: BoxDecoration(
+        color: ModalBackgroundColor
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "New Leave Request",
-              style:
-                  GoogleFonts.inter(fontSize: 30, fontWeight: FontWeight.bold),
+              "New Leave",
+              style: GoogleFonts.inter(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,),
             ),
-            const Gap(50),
+            const Gap(20),
             Container(
               decoration: BoxDecoration(
+                color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey.shade200, width: 2.0)),
+         ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: SizedBox(
@@ -143,10 +177,9 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                 fontSize: 15,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500)),
-                        Text("Casual",
+                        Text("Holiday",
                             style: GoogleFonts.dmSans(
-                                fontSize: 18,
-                                color: Colors.blue.shade800,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w600)),
                         Gap(20),
                         Text("Cause",
@@ -154,26 +187,79 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                 fontSize: 15,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500)),
-                        Text("Trip to Cannes",
+                        Text("Trip to Gitega",
                             style: GoogleFonts.dmSans(
-                                fontSize: 18,
-                                color: Colors.blue.shade800,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w600)),
                         const Gap(20),
-                        Text("From",
-                            style: GoogleFonts.dmSans(
-                                fontSize: 15,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500)),
-                        Text("Mon, 28 Nov 2024",
-                            style: GoogleFonts.dmSans(
-                                fontSize: 18,
-                                color: Colors.blue.shade800,
-                                fontWeight: FontWeight.w600)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Text("From",
+                                    style: GoogleFonts.dmSans(
+                                        fontSize: 15,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500)),
+                                Text(
+                                    _firstDate != null
+                                        ? DateFormat('EEE, dd MMM yyyy')
+                                            .format(_firstDate!)
+                                        : 'Select a date',
+                                    style: GoogleFonts.dmSans(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("to",
+                                    style: GoogleFonts.dmSans(
+                                        fontSize: 15,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500)),
+                                Text(
+                                    _secondDate != null
+                                        ? DateFormat('EEE, dd MMM yyyy')
+                                            .format(_secondDate!)
+                                        : 'Select a date',
+                                    style: GoogleFonts.dmSans(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            )
+                          ],
+                        ),
+                        Gap(10),
+                        SizedBox(
+                          height: 350, // Set a fixed height for the calendar
+                          child: ScrollableCleanCalendar(
+                            calendarController: calendarController,
+                            layout: Layout.BEAUTY,
+                            calendarCrossAxisSpacing: 0,
+                          ),
+                        ),
                       ],
                     )),
               ),
             ),
+            Gap(30),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    padding: WidgetStateProperty.all(EdgeInsets.all(15)),
+                    backgroundColor: WidgetStateProperty.all(Colors.green),
+                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)))),
+                onPressed: () {
+                  print(calendarController.onRangeSelected);
+                },
+                child: Text("Apply for 18 Days Leave",
+                    style: GoogleFonts.lato(fontSize: 18, color: Colors.white)),
+              ),
+            )
           ],
         ),
       ),
