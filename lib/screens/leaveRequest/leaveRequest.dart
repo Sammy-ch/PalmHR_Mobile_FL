@@ -8,6 +8,7 @@ import 'package:custom_date_range_picker/custom_date_range_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:PALMHR_MOBILE/services/queries.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LeaveRequestScreen extends StatefulWidget {
   const LeaveRequestScreen({super.key});
@@ -93,79 +94,84 @@ class _LeaveActivityState extends State<LeaveActivity> {
     final cardBackgroundColor =
         isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200;
 
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
 
-    if (leaveRequests.isEmpty) {
-      return const Center(child: Text('No leave requests found.'));
-    }
-
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: leaveRequests.length,
-      itemBuilder: (context, index) {
-        final request = leaveRequests[index];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          decoration: BoxDecoration(
-            color: cardBackgroundColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      request['leave_type'] ?? 'Unknown',
-                      style: GoogleFonts.dmSans(
-                        color: Colors.grey.shade600,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Gap(5),
-                    Text(
-                      DateFormat('EEE, d MMM').format(DateTime.parse(request['leave_start'])),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Gap(5),
-                    Text(
-                      '${request['leave_days']} day(s)',
-                      style: GoogleFonts.roboto(
-                        color: Colors.orange,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: _getStatusColor(request['leave_status']),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      request['leave_status'] ?? 'Unknown',
-                      style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+    return Skeletonizer(
+      enabled: isLoading,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: leaveRequests.length,
+        itemBuilder: (context, index) {
+          final request = leaveRequests[index];
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              color: cardBackgroundColor,
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-        );
-      },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        request['leave_type'] ?? 'Unknown',
+                        style: GoogleFonts.dmSans(
+                          color: Colors.grey.shade600,
+                          fontSize: 18,
+                        ),
+                      ),
+                     const Gap(5),
+                      Text(
+                        DateFormat('EEE, d MMM').format(DateTime.parse(request['leave_start'])),
+                        style: GoogleFonts.dmSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                     const  Gap(5),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.blue
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            '${request['leave_days']} day(s)',
+                            style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: _getStatusColor(request['leave_status']),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        request['leave_status'] ?? 'Unknown',
+                        style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

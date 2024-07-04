@@ -76,14 +76,14 @@ class PerformanceMetrics extends StatefulWidget {
 
 class _PerformanceMetricsState extends State<PerformanceMetrics> {
   late Future<Map<String, double>> _attendancePercentages;
-  late Future<int> _totalDaysAbsent; // Add this line
-
+  late Future<int> _totalDaysAbsent;
+  late Future<int> _allowedLeaves;
   @override
   void initState() {
     super.initState();
     _attendancePercentages = calculateAttendancePercentages(userId);
-    _totalDaysAbsent = calculateTotalDaysAbsent(userId); // Add this line
-
+    _totalDaysAbsent = calculateTotalDaysAbsent(userId);
+    _allowedLeaves = fetchAllowedLeaves(userId);
   }
 
   @override
@@ -96,8 +96,9 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
               style: GoogleFonts.dmSans(
                   fontSize: 20, fontWeight: FontWeight.bold)),
           const Gap(10),
-        FutureBuilder<List<dynamic>>(
-          future: Future.wait([_attendancePercentages, _totalDaysAbsent]),
+          FutureBuilder<List<dynamic>>(
+              future: Future.wait(
+                  [_attendancePercentages, _totalDaysAbsent, _allowedLeaves]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
@@ -106,9 +107,11 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                 } else if (!snapshot.hasData) {
                   return const Text('No data available');
                 } else {
-              final percentages = snapshot.data![0] as Map<String, double>;
-              final totalDaysAbsent = snapshot.data![1] as int; 
-                    return Row(
+                  final percentages = snapshot.data![0] as Map<String, double>;
+                  final totalDaysAbsent = snapshot.data![1] as int;
+                  final allowedLeaves = snapshot.data![2] as int;
+
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
@@ -165,7 +168,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                             fontSize: 20,
                                           )),
                                       const Gap(10),
-                                Text("$totalDaysAbsent Days",
+                                      Text("$totalDaysAbsent Days",
                                           style: GoogleFonts.dmSans(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold,
@@ -183,12 +186,12 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Leaves Taken",
+                                      Text("Leaves Balance",
                                           style: GoogleFonts.dmSans(
                                             fontSize: 20,
                                           )),
                                       const Gap(10),
-                                      Text("02",
+                                      Text("$allowedLeaves Days",
                                           style: GoogleFonts.dmSans(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold,

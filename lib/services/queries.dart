@@ -227,3 +227,24 @@ Future<List<Map<String, dynamic>>> fetchEmployeeLeaveRequests(String employeeId)
     return [];
   }
 }
+
+
+Future<int> fetchAllowedLeaves(String employeeId) async {
+  try {
+    final response = await supabase
+        .from('EmployeeProfile')
+        .select('allowed_leaves')
+        .eq('profile_id', employeeId)
+        .single();
+
+    if (response != null && response['allowed_leaves'] != null) {
+      return response['allowed_leaves'];
+    } else {
+      print('No allowed leaves data found for employee ID: $employeeId');
+      return 0;
+    }
+  } on PostgrestException catch (e) {
+    print('Error fetching allowed leaves: ${e.message}');
+    return 0;
+  }
+}
