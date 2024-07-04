@@ -141,17 +141,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
               ],
             )
           ],
-        ),
-        const Spacer(flex: 1),
-        Row(
-          children: [
-            IconButton(
-                iconSize: 35,
-                icon: const Icon(UniconsLine.bell),
-                onPressed: ()  {
-
-                })
-          ],
         )
       ],
     );
@@ -482,7 +471,7 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                           AutoSizeText(
                                               attendance['attendance_tag'] ??
                                               'N/A'),
-                                              Gap(10),
+                                              const Gap(10),
                                           AutoSizeText(
                                               "${attendance['checkin_time'] ?? '--:--'} - ${attendance['checkout_time'] ?? '--:--'}",
                                               style: GoogleFonts.montserrat())

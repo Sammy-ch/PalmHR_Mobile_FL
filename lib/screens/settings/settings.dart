@@ -72,15 +72,15 @@ class _ProfileCardState extends State<ProfileCard> {
             size: 50.0,
           ),
           const SizedBox(width: 15.0),
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Alain",
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10.0),
-              const Text("sammystcherubin@gmail.com")
+              SizedBox(height: 10.0),
+              Text("sammystcherubin@gmail.com")
             ],
           ),
           const SizedBox(width: 50.0),
@@ -226,15 +226,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 icons: Icons.exit_to_app_rounded,
                 title: "Sign Out",
               ),
-              SettingsItem(
-                onTap: () {},
-                icons: Icons.delete_forever,
-                title: "Delete account",
-                titleStyle: const TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              // SettingsItem(
+              //   onTap: () {},
+              //   icons: Icons.delete_forever,
+              //   title: "Delete account",
+              //   titleStyle: const TextStyle(
+              //     color: Colors.red,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
             ],
           ),
         ],

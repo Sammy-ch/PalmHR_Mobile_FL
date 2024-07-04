@@ -1,9 +1,5 @@
 import 'package:PALMHR_MOBILE/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:intl/intl.dart';
-
-
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<List<Map<String, dynamic>>> fetchAttendanceHistory(
     String employeeId) async {
@@ -210,12 +206,24 @@ Future<void> insertEmployeeLeaveForm({
         .insert(leaveFormData)
         .select();
 
-    if (response == null) {
-      print('Employee leave form inserted successfully');
-    } else {
-      print('Error inserting employee leave form: ${response}');
-    }
-  } catch (e) {
+    print('Error inserting employee leave form: $response');
+    } catch (e) {
     print('Exception occurred while inserting employee leave form: $e');
+  }
+}
+
+
+Future<List<Map<String, dynamic>>> fetchEmployeeLeaveRequests(String employeeId) async {
+  try {
+    final response = await supabase
+        .from('EmployeeLeaveForm')
+        .select()
+        .eq('leave_id', employeeId)
+        .order('requested_leave_date', ascending: false);
+
+    return response;
+  } catch (e) {
+    print('Error fetching employee leave requests: $e');
+    return [];
   }
 }

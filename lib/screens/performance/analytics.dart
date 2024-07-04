@@ -100,11 +100,11 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
           future: Future.wait([_attendancePercentages, _totalDaysAbsent]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData) {
-                  return Text('No data available');
+                  return const Text('No data available');
                 } else {
               final percentages = snapshot.data![0] as Map<String, double>;
               final totalDaysAbsent = snapshot.data![1] as int; 
@@ -124,19 +124,19 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                       style: GoogleFonts.dmSans(
                                         fontSize: 20,
                                       )),
-                                  Gap(10),
+                                  const Gap(10),
                                   Text(
                                       "${percentages['onTimePercentage']?.toStringAsFixed(2)}%",
                                       style: GoogleFonts.roboto(
                                           fontSize: 35,
                                           fontWeight: FontWeight.bold,
                                           fontStyle: FontStyle.italic)),
-                                  Gap(30),
+                                  const Gap(30),
                                   Text("Late Attendance",
                                       style: GoogleFonts.dmSans(
                                         fontSize: 20,
                                       )),
-                                  Gap(10),
+                                  const Gap(10),
                                   Text(
                                       "${percentages['latePercentage']?.toStringAsFixed(2)}%",
                                       style: GoogleFonts.roboto(
@@ -164,7 +164,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                           style: GoogleFonts.dmSans(
                                             fontSize: 20,
                                           )),
-                                      Gap(10),
+                                      const Gap(10),
                                 Text("$totalDaysAbsent Days",
                                           style: GoogleFonts.dmSans(
                                               fontSize: 30,
@@ -187,7 +187,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                           style: GoogleFonts.dmSans(
                                             fontSize: 20,
                                           )),
-                                      Gap(10),
+                                      const Gap(10),
                                       Text("02",
                                           style: GoogleFonts.dmSans(
                                               fontSize: 30,
