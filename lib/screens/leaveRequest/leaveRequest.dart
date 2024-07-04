@@ -8,7 +8,7 @@ import 'package:custom_date_range_picker/custom_date_range_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:PALMHR_MOBILE/services/queries.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 
 class LeaveRequestScreen extends StatefulWidget {
   const LeaveRequestScreen({super.key});
@@ -49,8 +49,10 @@ class LeaveHeader extends StatelessWidget {
                 GoogleFonts.dmSans(fontSize: 25, fontWeight: FontWeight.bold)),
         IconButton(
             onPressed: () => context.go('/newLeaveRequest'),
-            icon: const Icon(UniconsLine.file_plus_alt,
-                size: 30, color: Colors.green))
+            icon: const Icon(
+              UniconsLine.file_plus_alt,
+              size: 30,
+            ))
       ],
     );
   }
@@ -94,84 +96,80 @@ class _LeaveActivityState extends State<LeaveActivity> {
     final cardBackgroundColor =
         isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200;
 
-
-    return Skeletonizer(
-      enabled: isLoading,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: leaveRequests.length,
-        itemBuilder: (context, index) {
-          final request = leaveRequests[index];
-          return Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              color: cardBackgroundColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        request['leave_type'] ?? 'Unknown',
-                        style: GoogleFonts.dmSans(
-                          color: Colors.grey.shade600,
-                          fontSize: 18,
-                        ),
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: leaveRequests.length,
+      itemBuilder: (context, index) {
+        final request = leaveRequests[index];
+        return Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            color: cardBackgroundColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      request['leave_type'] ?? 'Unknown',
+                      style: GoogleFonts.dmSans(
+                        color: Colors.grey.shade600,
+                        fontSize: 18,
                       ),
-                     const Gap(5),
-                      Text(
-                        DateFormat('EEE, d MMM').format(DateTime.parse(request['leave_start'])),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                    const Gap(5),
+                    Text(
+                      DateFormat('EEE, d MMM')
+                          .format(DateTime.parse(request['leave_start'])),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                     const  Gap(5),
-                      Container(
-                        decoration: BoxDecoration(
+                    ),
+                    const Gap(5),
+                    Container(
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Colors.blue
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            '${request['leave_days']} day(s)',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
+                          color: Colors.blue),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          '${request['leave_days']} day(s)',
+                          style: GoogleFonts.roboto(
+                            color: Colors.white,
+                            fontSize: 15,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: _getStatusColor(request['leave_status']),
-                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        request['leave_status'] ?? 'Unknown',
-                        style: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  ],
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(request['leave_status']),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      request['leave_status'] ?? 'Unknown',
+                      style: GoogleFonts.roboto(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -199,15 +197,19 @@ class NewLeaveRequest extends StatefulWidget {
 class _NewLeaveRequestState extends State<NewLeaveRequest> {
   DateTime? startDate;
   DateTime? endDate;
-  String leaveType = 'HOLIDAY'; // Default value
+  String leaveType = 'HOLIDAY';
   String leaveReason = '';
   final _formKey = GlobalKey<FormState>();
+
+  static List<String> _list = ['HOLIDAY', 'SICK', 'PERSONAL'];
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final ModalBackgroundColor =
         isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200;
+    final InputBackgroundColor = isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200;
+
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -220,20 +222,56 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
+                      TextButton(
+                        child: Text("Cancel"),
                         onPressed: () {
                           context.go("/leave");
                         },
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
                       ),
-                      const Gap(10),
                       Text(
                         "New Leave",
                         style: GoogleFonts.inter(
-                          fontSize: 25,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      TextButton(
+                        child: Text("Done"),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate() &&
+                              startDate != null &&
+                              endDate != null) {
+                            try {
+                              if (userId != null) {
+                                await insertEmployeeLeaveForm(
+                                  requestedLeaveDate: DateTime.now(),
+                                  leaveId: userId,
+                                  leaveType: leaveType,
+                                  leaveStart: startDate!,
+                                  leaveEnd: endDate!,
+                                  leaveDays:
+                                      endDate!.difference(startDate!).inDays +
+                                          1,
+                                  leaveStatus: 'PENDING',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'Leave request submitted successfully')),
+                                );
+                                context.go('/leave');
+                              } else {
+                                throw Exception('User not logged in');
+                              }
+                            } on PostgrestException catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("${e.message}")),
+                              );
+                            }
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -241,7 +279,7 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                   Container(
                     decoration: BoxDecoration(
                       color: isDarkMode
-                          ? Colors.grey.shade800
+                          ? Colors.grey.shade900
                           : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -252,22 +290,25 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              DropdownButtonFormField<String>(
-                                value: leaveType,
-                                items: ['HOLIDAY', 'SICK', 'PERSONAL']
-                                    .map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
+                              Text("Leave Type",
+                                  style: GoogleFonts.dmSans(
+                                      fontSize: 15,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w500)),
+                              const Gap(5),
+                              CustomDropdown(
+                                decoration: CustomDropdownDecoration(
+                                  closedFillColor: InputBackgroundColor,
+                                  expandedFillColor: InputBackgroundColor,
+                                ),
+                                hintText: 'Select leave type',
+                                initialItem: _list[0],
+                                items: _list,
                                 onChanged: (newValue) {
                                   setState(() {
                                     leaveType = newValue!;
                                   });
                                 },
-                                decoration: const InputDecoration(
-                                    labelText: 'Leave Type'),
                               ),
                               const Gap(20),
                               Text("Cause",
@@ -278,8 +319,11 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                               const Gap(5),
                               TextFormField(
                                 maxLines: 3,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
+                                decoration:  InputDecoration(
+                                  fillColor: InputBackgroundColor,
+                                  border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
                                   hintText: 'Write your reason',
                                 ),
                                 onChanged: (value) {
@@ -295,6 +339,54 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                 },
                               ),
                               const Gap(20),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 40,
+                                child: OutlinedButton.icon(
+                                  label: Text(
+                                    "Select Date",
+                                    style:
+                                        GoogleFonts.lato(color: Colors.white),
+                                  ),
+                                  style: ButtonStyle(
+                                      padding: WidgetStateProperty.all(
+                                          const EdgeInsets.all(5)),
+                                      backgroundColor:
+                                          WidgetStateProperty.all(Colors.green),
+                                      shape: WidgetStateProperty.all(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)))),
+                                  onPressed: () {
+                                    showCustomDateRangePicker(
+                                      context,
+                                      dismissible: true,
+                                      minimumDate: DateTime.now()
+                                          .subtract(const Duration(days: 30)),
+                                      maximumDate: DateTime.now()
+                                          .add(const Duration(days: 30)),
+                                      endDate: endDate,
+                                      startDate: startDate,
+                                      backgroundColor: Colors.white,
+                                      primaryColor: Colors.black,
+                                      onApplyClick: (start, end) {
+                                        setState(() {
+                                          endDate = end;
+                                          startDate = start;
+                                        });
+                                      },
+                                      onCancelClick: () {
+                                        setState(() {
+                                          endDate = null;
+                                          startDate = null;
+                                        });
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.calendar_month),
+                                ),
+                              ),
+                              const Gap(50),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -316,6 +408,7 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                               fontWeight: FontWeight.w600)),
                                     ],
                                   ),
+                                  const Icon(Icons.arrow_forward_sharp,color: Colors.amber,),
                                   Column(
                                     children: [
                                       Text("to",
@@ -336,109 +429,11 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                     ],
                                   )
                                 ],
-                              ),
-                              const Gap(30),
-                              Center(
-                                child: SizedBox(
-                                  width: 150,
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                        padding: WidgetStateProperty.all(
-                                            const EdgeInsets.all(5)),
-                                        backgroundColor:
-                                            WidgetStateProperty.all(
-                                                Colors.green),
-                                        shape: WidgetStateProperty.all(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5)))),
-                                    onPressed: () {
-                                      showCustomDateRangePicker(
-                                        context,
-                                        dismissible: true,
-                                        minimumDate: DateTime.now()
-                                            .subtract(const Duration(days: 30)),
-                                        maximumDate: DateTime.now()
-                                            .add(const Duration(days: 30)),
-                                        endDate: endDate,
-                                        startDate: startDate,
-                                        backgroundColor: Colors.white,
-                                        primaryColor: Colors.green,
-                                        onApplyClick: (start, end) {
-                                          setState(() {
-                                            endDate = end;
-                                            startDate = start;
-                                          });
-                                        },
-                                        onCancelClick: () {
-                                          setState(() {
-                                            endDate = null;
-                                            startDate = null;
-                                          });
-                                        },
-                                      );
-                                    },
-                                    child: Text("Select Date",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 15,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
                               )
                             ],
                           )),
                     ),
                   ),
-                  const Gap(30),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          padding:
-                              WidgetStateProperty.all(const EdgeInsets.all(15)),
-                          backgroundColor:
-                              WidgetStateProperty.all(Colors.green),
-                          shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)))),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate() &&
-                            startDate != null &&
-                            endDate != null) {
-                          try {
-                            if (userId != null) {
-                              await insertEmployeeLeaveForm(
-                                requestedLeaveDate: DateTime.now(),
-                                leaveId: userId,
-                                leaveType: leaveType,
-                                leaveStart: startDate!,
-                                leaveEnd: endDate!,
-                                leaveDays:
-                                    endDate!.difference(startDate!).inDays + 1,
-                                leaveStatus: 'PENDING',
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Leave request submitted successfully')),
-                              );
-                              context.go('/leave');
-                            } else {
-                              throw Exception('User not logged in');
-                            }
-                          } on PostgrestException catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("${e.message}")),
-                            );
-                          }
-                        }
-                      },
-                      child: Text(
-                          "Apply for ${startDate != null && endDate != null ? endDate!.difference(startDate!).inDays + 1 : 0} Days Leave",
-                          style: GoogleFonts.lato(
-                              fontSize: 18, color: Colors.white)),
-                    ),
-                  )
                 ],
               ),
             ),

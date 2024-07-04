@@ -21,8 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         children: [
           Positioned.fill(
+            bottom: 200.0,
             child: Image.asset(
-              "assets/skyscraper4.jpg",
+              "assets/skyscraper3.jpg",
               fit: BoxFit.fill,
             ),
           ),
@@ -30,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Gap(15),
+                const Gap(50),
                 Image.asset("assets/logo.png", scale: 7),
                 const Gap(80),
                 const loginForm(),
@@ -93,14 +94,16 @@ class _loginFormState extends State<loginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final cardBackgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.white;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(30.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBackgroundColor,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(50.0),
-            topRight: Radius.circular(50.0),
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
           ),
           boxShadow: [
             BoxShadow(
@@ -200,7 +203,7 @@ class _loginFormState extends State<loginForm> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
-                                  Colors.black)),
+                                  Colors.green)),
                           onPressed: () {
                             _signIn();
                           },
