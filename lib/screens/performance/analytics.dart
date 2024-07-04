@@ -114,7 +114,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                       Expanded(
                         child: GlassContainer.frostedGlass(
                             borderRadius: BorderRadius.circular(15),
-                            height: 275,
+                            height: 315,
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Column(
@@ -153,7 +153,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                           children: [
                             GlassContainer.frostedGlass(
                                 borderRadius: BorderRadius.circular(15),
-                                height: 130,
+                                height: 150,
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
@@ -164,10 +164,10 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                           style: GoogleFonts.dmSans(
                                             fontSize: 20,
                                           )),
-                                      Gap(20),
+                                      Gap(10),
                                 Text("$totalDaysAbsent Days",
                                           style: GoogleFonts.dmSans(
-                                              fontSize: 35,
+                                              fontSize: 30,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic)),
                                     ],
@@ -176,7 +176,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                             const SizedBox(height: 15),
                             GlassContainer.frostedGlass(
                                 borderRadius: BorderRadius.circular(15),
-                                height: 130,
+                                height: 150,
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
@@ -187,10 +187,10 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                           style: GoogleFonts.dmSans(
                                             fontSize: 20,
                                           )),
-                                      Gap(20),
+                                      Gap(10),
                                       Text("02",
                                           style: GoogleFonts.dmSans(
-                                              fontSize: 35,
+                                              fontSize: 30,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic)),
                                     ],

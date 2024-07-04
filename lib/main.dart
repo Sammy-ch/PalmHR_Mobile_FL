@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:PALMHR_MOBILE/env/env.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:unicons/unicons.dart';
+import 'package:flutter/services.dart';
 
 import 'themeProvider.dart';
 
@@ -21,6 +23,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabase_anon);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   runApp(ChangeNotifierProvider(
     create: (_) => ThemeProvider(),
@@ -79,6 +82,11 @@ final GoRouter _goRouter = GoRouter(
       name: "/createAccount",
       builder: (context, state) => const CreateAccount(),
     ),
+    GoRoute(
+      path: "/newLeaveRequest",
+      name: "/newLeaveRequest",
+      builder: (context, state) => const NewLeaveRequest(),
+    ),
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
@@ -109,7 +117,7 @@ final GoRouter _goRouter = GoRouter(
                 ),
                 DotNavigationBarItem(
                   icon: const Icon(
-                    Icons.swipe_left_alt_outlined,
+                    UniconsLine.user_times,
                     size: 25,
                   ),
                 ),
@@ -166,6 +174,10 @@ final GoRouter _goRouter = GoRouter(
             return null;
           }
           if (state.matchedLocation == '/leave') {
+            return null;
+          }
+
+          if (state.matchedLocation == "/newLeaveRequest") {
             return null;
           }
 
@@ -231,5 +243,22 @@ Future<bool> _checkProfileExists(BuildContext context) async {
       ),
     );
     return false;
+  }
+}
+
+
+void updateSystemUIOverlayStyle(ThemeMode themeMode) {
+  if (themeMode == ThemeMode.dark) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+    ));
+  } else {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    ));
   }
 }

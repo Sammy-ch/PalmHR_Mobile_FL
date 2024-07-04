@@ -4,7 +4,7 @@ import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:PALMHR_MOBILE/themeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -72,14 +72,15 @@ class _ProfileCardState extends State<ProfileCard> {
             size: 50.0,
           ),
           const SizedBox(width: 15.0),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Alain Cherubin",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10.0),
-              Text("sammystcherubin@gmail.com")
+              Text("Alain",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10.0),
+              const Text("sammystcherubin@gmail.com")
             ],
           ),
           const SizedBox(width: 50.0),
@@ -106,6 +107,61 @@ class _SettingsPageState extends State<SettingsPage> {
   ThemeMode themeMode = ThemeMode.system;
   ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
+  var _loading = true;
+  String _firstName = '';
+  String _lastName = '';
+  String _position = '';
+  String _profileImage = '';
+
+  Future<void> _getProfile() async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      final data = await supabase
+          .from("EmployeeProfile")
+          .select("*")
+          .eq("profile_id", userId)
+          .single();
+
+      _firstName = data['first_name'];
+      _lastName = data['last_name'];
+      _position = data['position'];
+      _profileImage = data['profile_image'];
+    } on PostgrestException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.message),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Unexpected error occurred'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -115,23 +171,14 @@ class _SettingsPageState extends State<SettingsPage> {
       child: ListView(
         children: [
           // User card
-          BigUserCard(
-            cardRadius: 20,
-            backgroundColor: Colors.green,
-            userName: "Alain Cherubin",
-            userProfilePic: const AssetImage("assets/logo.png"),
-            cardActionWidget: SettingsItem(
-              icons: Icons.edit,
-              iconStyle: IconStyle(
-                withBackground: true,
-                borderRadius: 50,
-                backgroundColor: Colors.black,
-              ),
-              title: "Modify",
-              subtitle: "Tap to change your details",
-              onTap: () {},
-            ),
-          ),
+          // BigUserCard(
+          //   cardRadius: 20,
+          //   backgroundColor: Colors.green,
+          //   userName: "$_firstName $_lastName",
+          //   userProfilePic: _profileImage.isNotEmpty
+          //       ? NetworkImage(_profileImage,) as ImageProvider
+          //       : const AssetImage("assets/logo.png") as ImageProvider,
+          // ),
           SettingsGroup(
             items: [
               SettingsItem(

@@ -177,3 +177,45 @@ Future<int> calculateTotalDaysAbsent(String employeeId) async {
   }
 }
 
+
+
+
+Future<void> insertEmployeeLeaveForm({
+  required DateTime requestedLeaveDate,
+  required String leaveId,
+  required String leaveType,
+  required DateTime leaveStart,
+  required DateTime leaveEnd,
+  required int leaveDays,
+  required String leaveStatus,
+}) async {
+  try {
+    // Initialize Supabase client
+    final supabase = Supabase.instance.client;
+
+    // Prepare the data to be inserted
+    final Map<String, dynamic> leaveFormData = {
+      'requested_leave_date': requestedLeaveDate.toIso8601String(),
+      'leave_id': leaveId,
+      'leave_type': leaveType,
+      'leave_start': leaveStart.toIso8601String(),
+      'leave_end': leaveEnd.toIso8601String(),
+      'leave_days': leaveDays,
+      'leave_status': leaveStatus,
+    };
+
+    // Insert the data into the EmployeeLeaveForm table
+    final response = await supabase
+        .from('EmployeeLeaveForm')
+        .insert(leaveFormData)
+        .select();
+
+    if (response == null) {
+      print('Employee leave form inserted successfully');
+    } else {
+      print('Error inserting employee leave form: ${response}');
+    }
+  } catch (e) {
+    print('Exception occurred while inserting employee leave form: $e');
+  }
+}

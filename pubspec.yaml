@@ -49,6 +49,8 @@ flutter:
   assets:
     - assets/skyscraper2.jpg
     - assets/skyscraper.jpg
+    - assets/skyscraper4.jpg
+    - assets/skyscraper3.jpg
     - assets/logo.png
 
 
