@@ -3,6 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 
 
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 Future<List<Map<String, dynamic>>> fetchAttendanceHistory(
     String employeeId) async {
   try {
@@ -109,81 +111,69 @@ Future<List<Map<String, dynamic>>> leaveRequest(String userId) async {
   }
 }
 
-
 Future<Map<String, double>> calculateAttendancePercentages(
     String employeeId) async {
-  final totalAttendanceResponse = await supabase
-      .from('EmployeeAttendance')
-      .select('id')
-      .eq('employee_id', employeeId)
-      .count(CountOption.exact);
-
-  final onTimeAttendanceResponse = await supabase
-      .from('EmployeeAttendance')
-      .select('id')
-      .eq('employee_id', employeeId)
-      .eq('attendance_tag', 'PRESENT')
-      .count(CountOption.exact);
-
-  final lateAttendanceResponse = await supabase
-      .from('EmployeeAttendance')
-      .select('id')
-      .eq('employee_id', employeeId)
-      .eq('attendance_tag', 'ABSENT')
-      .count(CountOption.exact);
-
-  if (totalAttendanceResponse != null ||
-      onTimeAttendanceResponse != null ||
-      lateAttendanceResponse != null) {
-    throw Exception('Error fetching data');
-  }
-
-  final totalAttendance = totalAttendanceResponse.data.first['count'];
-  final onTimeAttendance = onTimeAttendanceResponse.data.first['count'];
-  final lateAttendance = lateAttendanceResponse.data.first['count'];
-
-  final onTimePercentage = (onTimeAttendance / totalAttendance) * 100;
-  final latePercentage = (lateAttendance / totalAttendance) * 100;
-
-  return {
-    'onTimePercentage': onTimePercentage,
-    'latePercentage': latePercentage,
-  };
-}
-
-
-
-
-Future<Map<String, int>> calculateEarlyAndLateArrivals(String employeeId) async {
   try {
-    final response = await supabase
+    final totalAttendanceResponse = await supabase
         .from('EmployeeAttendance')
-        .select('checkin_time')
-        .eq('employee_id', employeeId);
+        .select('employee_id')
+        .eq('employee_id', employeeId)
+        .count(CountOption.exact);
 
-    int earlyCount = 0;
-    int lateCount = 0;
+    final onTimeAttendanceResponse = await supabase
+        .from('EmployeeAttendance')
+        .select('employee_id')
+        .eq('employee_id', employeeId)
+        .eq('attendance_tag', 'PRESENT')
+        .count(CountOption.exact);
 
-    for (var record in response) {
-      final checkinTime = DateFormat('HH:mm').parse(record['checkin_time']);
-      final nineAM = DateFormat('HH:mm').parse('09:00');
+    final lateAttendanceResponse = await supabase
+        .from('EmployeeAttendance')
+        .select('employee_id')
+        .eq('employee_id', employeeId)
+        .eq('attendance_tag', 'ABSENT')
+        .count(CountOption.exact);
 
-      if (checkinTime.isBefore(nineAM)) {
-        earlyCount++;
-      } else {
-        lateCount++;
-      }
-    }
+    final totalAttendance = totalAttendanceResponse.data.first['count'];
+    final onTimeAttendance = onTimeAttendanceResponse.data.first['count'];
+    final lateAttendance = lateAttendanceResponse.data.first['count'];
+
+    final onTimePercentage = (onTimeAttendance / totalAttendance) * 100;
+    final latePercentage = (lateAttendance / totalAttendance) * 100;
 
     return {
-      'earlyCount': earlyCount,
-      'lateCount': lateCount,
+      'onTimePercentage': onTimePercentage,
+      'latePercentage': latePercentage,
+    };
+  } on PostgrestException catch (e) {
+    print('Exception details:\n $e');
+    return {
+      'onTimePercentage': 0.0,
+      'latePercentage': 0.0,
     };
   } catch (e) {
     print('Exception details:\n $e');
     return {
-      'earlyCount': 0,
-      'lateCount': 0,
+      'onTimePercentage': 0.0,
+      'latePercentage': 0.0,
     };
   }
 }
+
+
+Future<int> calculateTotalDaysAbsent(String employeeId) async {
+  try {
+    final response = await supabase
+        .from('EmployeeAttendance')
+        .select('employee_id')
+        .eq('employee_id', employeeId)
+        .eq('attendance_tag', 'ABSENT')
+        .count(CountOption.exact);
+
+    return response.count;
+  } on PostgrestException catch (e) {
+    print('Exception details:\n $e');
+    return 0;
+  }
+}
+
