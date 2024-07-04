@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
-import 'package:scrollable_clean_calendar/scrollable_clean_calendar.dart';
-import 'package:scrollable_clean_calendar/utils/enums.dart';
-import 'package:intl/intl.dart';
 import 'package:unicons/unicons.dart';
+import 'package:custom_date_range_picker/custom_date_range_picker.dart';
+import 'package:intl/intl.dart';
 
 class LeaveRequestScreen extends StatefulWidget {
   const LeaveRequestScreen({super.key});
@@ -115,31 +112,10 @@ class NewLeaveRequest extends StatefulWidget {
 }
 
 class _NewLeaveRequestState extends State<NewLeaveRequest> {
-  DateTime? _firstDate;
-  DateTime? _secondDate;
+  DateTime? startDate;
+  DateTime? endDate;
   @override
   Widget build(BuildContext context) {
-    final calendarController = CleanCalendarController(
-      minDate: DateTime.now(),
-      maxDate: DateTime.now().add(const Duration(days: 365)),
-      onRangeSelected: (firstDate, secondDate) {
-        firstDate;
-        secondDate;
-        // setState(() {
-        //   _firstDate = firstDate;
-        //   _secondDate = secondDate;
-        // });
-      },
-      onDayTapped: (date) {},
-      // readOnly: true,
-      onPreviousMinDateTapped: (date) {},
-      onAfterMaxDateTapped: (date) {},
-      weekdayStart: DateTime.monday,
-      // initialFocusDate: DateTime.now(),
-      // initialDateSelected: DateTime.now(),
-      // endDateSelected: DateTime(2022, 3, 20),
-    );
-
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final ModalBackgroundColor =
         isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200;
@@ -199,9 +175,14 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                     fontSize: 15,
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500)),
-                            Text("Trip to Gitega",
-                                style: GoogleFonts.dmSans(
-                                    fontSize: 17, fontWeight: FontWeight.w600)),
+                            Gap(5),
+                            const TextField(
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Write your reason',
+                              ),
+                            ),
                             const Gap(20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,10 +195,10 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                             color: Colors.grey,
                                             fontWeight: FontWeight.w500)),
                                     Text(
-                                        _firstDate != null
-                                            ? DateFormat('EEE, dd MMM yyyy')
-                                                .format(_firstDate!)
-                                            : 'Select a date',
+                                        startDate != null
+                                            ? DateFormat('MMM d, y')
+                                                .format(startDate!)
+                                            : "Not selected",
                                         style: GoogleFonts.dmSans(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600)),
@@ -231,27 +212,67 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                             color: Colors.grey,
                                             fontWeight: FontWeight.w500)),
                                     Text(
-                                        _secondDate != null
-                                            ? DateFormat('EEE, dd MMM yyyy')
-                                                .format(_secondDate!)
-                                            : 'Select a date',
-                                        style: GoogleFonts.dmSans(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600)),
+                                      endDate != null
+                                          ? DateFormat('MMM d, y')
+                                              .format(endDate!)
+                                          : "Not selected",
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ],
                                 )
                               ],
                             ),
-                            Gap(10),
-                            SizedBox(
-                              height:
-                                  350, // Set a fixed height for the calendar
-                              child: ScrollableCleanCalendar(
-                                calendarController: calendarController,
-                                layout: Layout.BEAUTY,
-                                calendarCrossAxisSpacing: 0,
+                            Gap(30),
+                            Center(
+                              child: SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      padding: WidgetStateProperty.all(
+                                          EdgeInsets.all(5)),
+                                      backgroundColor:
+                                          WidgetStateProperty.all(Colors.green),
+                                      shape: WidgetStateProperty.all(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)))),
+                                  onPressed: () {
+                                    showCustomDateRangePicker(
+                                      context,
+                                      dismissible: true,
+                                      minimumDate: DateTime.now()
+                                          .subtract(const Duration(days: 30)),
+                                      maximumDate: DateTime.now()
+                                          .add(const Duration(days: 30)),
+                                      endDate: endDate,
+                                      startDate: startDate,
+                                      backgroundColor: Colors.white,
+                                      primaryColor: Colors.green,
+                                      onApplyClick: (start, end) {
+                                        setState(() {
+                                          endDate = end;
+                                          startDate = start;
+                                        });
+                                      },
+                                      onCancelClick: () {
+                                        setState(() {
+                                          endDate = null;
+                                          startDate = null;
+                                        });
+                                      },
+                                    );
+                                  },
+                                  child: Text("Select Date",
+                                      style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                                ),
                               ),
-                            ),
+                            )
                           ],
                         )),
                   ),
@@ -265,10 +286,9 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                         backgroundColor: WidgetStateProperty.all(Colors.green),
                         shape: WidgetStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)))),
-                    onPressed: () {
-                      print(calendarController.onRangeSelected);
-                    },
-                    child: Text("Apply for 18 Days Leave",
+                    onPressed: () {},
+                    child: Text(
+                        "Apply for ${startDate != null && endDate != null ? endDate!.difference(startDate!).inDays + 1 : 0} Days Leave",
                         style: GoogleFonts.lato(
                             fontSize: 18, color: Colors.white)),
                   ),
