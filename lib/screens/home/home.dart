@@ -147,13 +147,10 @@ class _HeaderComponentState extends State<HeaderComponent> {
         Row(
           children: [
             IconButton(
-                iconSize: 30,
-                icon: const Icon(UniconsLine.sign_out_alt),
-                onPressed: () async {
-                  await supabase.auth.signOut();
-                  if (mounted) {
-                    context.go("/login");
-                  }
+                iconSize: 35,
+                icon: const Icon(UniconsLine.bell),
+                onPressed: ()  {
+
                 })
           ],
         )

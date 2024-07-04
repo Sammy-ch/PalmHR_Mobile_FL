@@ -6,6 +6,7 @@ import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.
 import 'package:scrollable_clean_calendar/scrollable_clean_calendar.dart';
 import 'package:scrollable_clean_calendar/utils/enums.dart';
 import 'package:intl/intl.dart';
+import 'package:unicons/unicons.dart';
 
 class LeaveRequestScreen extends StatefulWidget {
   const LeaveRequestScreen({super.key});
@@ -46,8 +47,8 @@ class LeaveHeader extends StatelessWidget {
                   context: context,
                   builder: (context) => const NewLeaveRequest(),
                 ),
-            icon: const Icon(Icons.add_circle_outlined,
-                size: 40, color: Colors.green))
+            icon: const Icon(UniconsLine.file_plus_alt,
+                size: 30, color: Colors.green))
       ],
     );
   }

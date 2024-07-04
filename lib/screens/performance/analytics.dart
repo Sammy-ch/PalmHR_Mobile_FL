@@ -89,13 +89,26 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
               Expanded(
                 child: GlassContainer.frostedGlass(
                     borderRadius: BorderRadius.circular(15),
-                    height: 315,
+                    height: 275,
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text("Attendance Percentage",
-                          style: GoogleFonts.dmSans(
-                            fontSize: 20,
-                          )),
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Text("Attendance Percentage",
+                              style: GoogleFonts.dmSans(
+                                fontSize: 20,
+                              )),
+                          Gap(20),
+                          Text("42%",
+                              style: GoogleFonts.roboto(
+                                fontSize: 70,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic
+                              )),
+                        ],
+                      ),
                     )),
               ),
               const SizedBox(width: 15),
@@ -104,24 +117,49 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                   children: [
                     GlassContainer.frostedGlass(
                         borderRadius: BorderRadius.circular(15),
-                        height: 150,
+                        height: 130,
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text("Total Days Absent",
-                              style: GoogleFonts.dmSans(
-                                fontSize: 20,
-                              )),
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Total Days Absent",
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 20,
+                                  )),
+                              Gap(20),
+                              Text("12 Days",
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic
+                                  )),
+                            ],
+                          ),
                         )),
                     const SizedBox(height: 15),
                     GlassContainer.frostedGlass(
                         borderRadius: BorderRadius.circular(15),
-                        height: 150,
+                        height: 130,
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text("Additional Metrics",
-                              style: GoogleFonts.dmSans(
-                                fontSize: 20,
-                              )),
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Leaves Taken",
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 20,
+                                  )),
+                              Gap(20),
+
+                              Text("02",
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic
+                                  )),
+                            ],
+                          ),
                         )),
                   ],
                 ),

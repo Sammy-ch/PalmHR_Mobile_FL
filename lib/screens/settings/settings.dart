@@ -1,6 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:PALMHR_MOBILE/main.dart';
 import 'package:flutter/material.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
+import 'package:PALMHR_MOBILE/themeProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -104,6 +108,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return SizedBox(
       height: 700,
       child: ListView(
@@ -123,9 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               title: "Modify",
               subtitle: "Tap to change your details",
-              onTap: () {
-                print("OK");
-              },
+              onTap: () {},
             ),
           ),
           SettingsGroup(
@@ -140,12 +144,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: 'Dark mode',
                 subtitle: "Automatic",
                 trailing: Switch.adaptive(
-                  value: themeMode == ThemeMode.dark,
+                  value: themeProvider.themeMode == ThemeMode.dark,
                   onChanged: (value) {
-                    setState(() {
-                      themeMode = value ? ThemeMode.dark : ThemeMode.light;
-                      themeNotifier.value = themeMode;
-                    });
+                    themeProvider.toggleTheme(value);
                   },
                 ),
               ),
@@ -169,7 +170,12 @@ class _SettingsPageState extends State<SettingsPage> {
             settingsGroupTitle: "Account",
             items: [
               SettingsItem(
-                onTap: () {},
+                onTap: () async {
+                  await supabase.auth.signOut();
+                  if (mounted) {
+                    context.go("/login");
+                  }
+                },
                 icons: Icons.exit_to_app_rounded,
                 title: "Sign Out",
               ),
@@ -186,29 +192,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-    );
-  }
-}
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: themeNotifier,
-      builder: (_, ThemeMode currentMode, __) {
-        return MaterialApp(
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
-          themeMode: currentMode,
-          home: const SettingScreen(),
-        );
-      },
     );
   }
 }

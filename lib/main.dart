@@ -10,17 +10,22 @@ import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:PALMHR_MOBILE/env/env.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+
+import 'themeProvider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: Env.supabaseUrl,
-    anonKey: Env.supabase_anon);
+  await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabase_anon);
 
-  runApp(const MainApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => ThemeProvider(),
+    child: const MainApp(),
+  ));
 }
 
 final supabase = Supabase.instance.client;
@@ -31,12 +36,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: FlexThemeData.light(scheme: FlexScheme.green),
-      darkTheme: FlexThemeData.dark(scheme: FlexScheme.green),
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      routerConfig: _goRouter,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp.router(
+          theme: FlexThemeData.light(scheme: FlexScheme.green),
+          darkTheme: FlexThemeData.dark(scheme: FlexScheme.green),
+          themeMode: themeProvider.themeMode,
+          debugShowCheckedModeBanner: false,
+          routerConfig: _goRouter,
+        );
+      },
     );
   }
 }
@@ -73,8 +82,9 @@ final GoRouter _goRouter = GoRouter(
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
-          final isDarkMode =  Theme.of(context).brightness == Brightness.dark;
-          final bottomNavColor = isDarkMode ? Colors.black : Colors.grey.shade200;
+          final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+          final bottomNavColor =
+              isDarkMode ? Colors.black : Colors.grey.shade200;
           return Scaffold(
             extendBody: true,
             bottomNavigationBar: DotNavigationBar(
@@ -84,22 +94,30 @@ final GoRouter _goRouter = GoRouter(
               onTap: (index) {
                 _onItemTapped(context, index);
               },
-              items: <DotNavigationBarItem> [
+              items: <DotNavigationBarItem>[
                 DotNavigationBarItem(
-                  icon: const FaIcon(FontAwesomeIcons.house,
-                  size: 25,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.house,
+                    size: 25,
                   ),
                 ),
                 DotNavigationBarItem(
-                  icon: const Icon(Icons.bar_chart_rounded,
-                    size: 25,),
-                ),
-                 DotNavigationBarItem(
-                  icon: const Icon(Icons.swipe_left_alt_outlined,
-                    size: 25,),
+                  icon: const Icon(
+                    Icons.bar_chart_rounded,
+                    size: 25,
+                  ),
                 ),
                 DotNavigationBarItem(
-                  icon: const Icon(Icons.settings,size: 25,),
+                  icon: const Icon(
+                    Icons.swipe_left_alt_outlined,
+                    size: 25,
+                  ),
+                ),
+                DotNavigationBarItem(
+                  icon: const Icon(
+                    Icons.settings,
+                    size: 25,
+                  ),
                 ),
               ],
             ),
@@ -121,7 +139,7 @@ final GoRouter _goRouter = GoRouter(
             path: '/leave',
             name: '/leave',
             builder: (context, state) => const LeaveRequestScreen(),
-             ),
+          ),
           GoRoute(
             path: '/settings',
             name: 'settings',
