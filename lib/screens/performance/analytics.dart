@@ -131,7 +131,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                   Text(
                                       "${percentages['onTimePercentage']?.toStringAsFixed(2)}%",
                                       style: GoogleFonts.roboto(
-                                          fontSize: 35,
+                                          fontSize: 30,
                                           fontWeight: FontWeight.bold,
                                           fontStyle: FontStyle.italic)),
                                   const Gap(30),
@@ -143,7 +143,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                   Text(
                                       "${percentages['latePercentage']?.toStringAsFixed(2)}%",
                                       style: GoogleFonts.roboto(
-                                          fontSize: 35,
+                                          fontSize: 30,
                                           fontWeight: FontWeight.bold,
                                           fontStyle: FontStyle.italic)),
                                 ],
@@ -170,7 +170,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                       const Gap(10),
                                       Text("$totalDaysAbsent Days",
                                           style: GoogleFonts.dmSans(
-                                              fontSize: 30,
+                                              fontSize: 25,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic)),
                                     ],
@@ -193,7 +193,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                       const Gap(10),
                                       Text("$allowedLeaves Days",
                                           style: GoogleFonts.dmSans(
-                                              fontSize: 30,
+                                              fontSize: 25,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic)),
                                     ],

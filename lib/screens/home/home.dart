@@ -25,11 +25,11 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               HeaderComponent(),
-              Gap(20),
+              Gap(15),
               AttendanceAnalyticsComponent(),
               Gap(10),
               CheckingComponent(),
-              Gap(25),
+              Gap(20),
               AttendanceActivity()
             ],
           ),
@@ -126,14 +126,14 @@ class _HeaderComponentState extends State<HeaderComponent> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText("$_firstName $_lastName",
-                    maxFontSize: 22,
+                    maxFontSize: 20,
                     minFontSize: 18,
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.normal,)
 
                         ),
                 AutoSizeText(_position,
-                    maxFontSize: 20,
+                    maxFontSize: 18,
                     minFontSize: 16,
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.normal,
@@ -175,7 +175,7 @@ class _AttendanceAnalyticsComponentState
       children: [
         SizedBox(
             child: Text("Latest Attendance",
-                style: GoogleFonts.lato(fontSize: 18, color: Colors.grey.shade700))),
+                style: GoogleFonts.lato(fontSize: 16, color: Colors.grey.shade700))),
         SizedBox(
           height: 150,
           child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -329,7 +329,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
         SizedBox(
             child: ActionSlider.standard(
               icon: const FaIcon(Icons.chevron_right_sharp,size: 40,color:Colors.white) ,
-          height: 70,
+          height: 60,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
           foregroundBorderRadius:
@@ -351,14 +351,14 @@ class _CheckingComponentState extends State<CheckingComponent> {
         SizedBox(
             child: ActionSlider.standard(
               icon: const FaIcon(Icons.chevron_right_sharp,size: 40,color: Colors.white) ,
-          height: 70,
+          height: 60,
           backgroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
           foregroundBorderRadius:
               const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
           backgroundColor: sliderBackgroundColor,
-          toggleColor: Colors.orange,
+          toggleColor: Colors.amber,
           action: (controller) async {
             controller.loading(); //starts loading animation
             await handleCheckOut(userId);

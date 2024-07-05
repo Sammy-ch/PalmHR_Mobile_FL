@@ -119,31 +119,39 @@ class _LeaveActivityState extends State<LeaveActivity> {
                       request['leave_type'] ?? 'Unknown',
                       style: GoogleFonts.dmSans(
                         color: Colors.grey.shade600,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     const Gap(5),
-                    Text(
-                      DateFormat('EEE, d MMM')
-                          .format(DateTime.parse(request['leave_start'])),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Gap(5),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.blue),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text(
-                          '${request['leave_days']} day(s)',
-                          style: GoogleFonts.roboto(
-                            color: Colors.white,
+                    Row(
+                      children: [
+                        Text(
+                          DateFormat('EEE, d MMM')
+                              .format(DateTime.parse(request['leave_start'])),
+                          style: GoogleFonts.dmSans(
                             fontSize: 15,
+                            fontWeight: FontWeight.bold,
                           ),
+                        ),
+                        Icon(Icons.arrow_right),
+                        Text(
+                          DateFormat('EEE, d MMM')
+                              .format(DateTime.parse(request['leave_end'])),
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(5),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        '${request['leave_days']} day(s)',
+                        style: GoogleFonts.roboto(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                          fontSize: 15,
                         ),
                       ),
                     ),

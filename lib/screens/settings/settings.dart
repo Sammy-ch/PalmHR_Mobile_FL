@@ -202,12 +202,14 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsGroup(
             items: [
               SettingsItem(
-                onTap: () {},
+                onTap: () {
+                  context.go("/privacyPolicy");
+                },
                 icons: Icons.info_rounded,
                 iconStyle: IconStyle(
                   backgroundColor: Colors.purple,
                 ),
-                title: 'About',
+                title: 'Privacy Policy',
                 subtitle: "Learn more about PALM HR",
               ),
             ],

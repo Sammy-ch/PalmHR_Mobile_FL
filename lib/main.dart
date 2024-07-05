@@ -5,6 +5,7 @@ import 'package:PALMHR_MOBILE/screens/onboarding/login.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/register.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/welcome.dart';
 import 'package:PALMHR_MOBILE/screens/performance/analytics.dart';
+import 'package:PALMHR_MOBILE/screens/privacyPolicy.dart';
 import 'package:PALMHR_MOBILE/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -87,6 +88,11 @@ final GoRouter _goRouter = GoRouter(
       name: "/newLeaveRequest",
       builder: (context, state) => const NewLeaveRequest(),
     ),
+    GoRoute(
+      path: "/privacyPolicy",
+      name: "/privacyPolicy",
+      builder: (context, state) => const Privacypolicy(),
+    ),
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
@@ -105,13 +111,13 @@ final GoRouter _goRouter = GoRouter(
               items: <DotNavigationBarItem>[
                 DotNavigationBarItem(
                   icon: const FaIcon(
-                    FontAwesomeIcons.house,
+                    UniconsLine.home_alt,
                     size: 25,
                   ),
                 ),
                 DotNavigationBarItem(
                   icon: const Icon(
-                    Icons.bar_chart_rounded,
+                    UniconsLine.analytics,
                     size: 25,
                   ),
                 ),
@@ -123,7 +129,7 @@ final GoRouter _goRouter = GoRouter(
                 ),
                 DotNavigationBarItem(
                   icon: const Icon(
-                    Icons.settings,
+                    UniconsLine.setting,
                     size: 25,
                   ),
                 ),
@@ -178,6 +184,10 @@ final GoRouter _goRouter = GoRouter(
           }
 
           if (state.matchedLocation == "/newLeaveRequest") {
+            return null;
+          }
+
+          if(state.matchedLocation == "/privacyPolicy") {
             return null;
           }
 
