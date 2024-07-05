@@ -94,13 +94,11 @@ class _loginFormState extends State<loginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final cardBackgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.white;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(30.0),
         decoration: BoxDecoration(
-          color: cardBackgroundColor,
+          color: Colors.white,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30.0),
             topRight: Radius.circular(30.0),
