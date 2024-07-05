@@ -358,7 +358,7 @@ class _CheckingComponentState extends State<CheckingComponent> {
               const BorderRadius.all(Radius.elliptical(10, 10)),
           sliderBehavior: SliderBehavior.stretch,
           backgroundColor: sliderBackgroundColor,
-          toggleColor: Colors.amber,
+          toggleColor: Colors.deepOrange,
           action: (controller) async {
             controller.loading(); //starts loading animation
             await handleCheckOut(userId);
