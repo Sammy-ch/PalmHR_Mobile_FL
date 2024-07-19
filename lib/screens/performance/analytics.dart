@@ -133,7 +133,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                       style: GoogleFonts.roboto(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic)),
+                            )),
                                   const Gap(30),
                                   Text("Late Attendance",
                                       style: GoogleFonts.dmSans(
@@ -145,7 +145,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                       style: GoogleFonts.roboto(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic)),
+                                       )),
                                 ],
                               ),
                             )),
@@ -172,7 +172,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                           style: GoogleFonts.dmSans(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic)),
+                                     )),
                                     ],
                                   ),
                                 )),
@@ -195,7 +195,7 @@ class _PerformanceMetricsState extends State<PerformanceMetrics> {
                                           style: GoogleFonts.dmSans(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic)),
+                                          )),
                                     ],
                                   ),
                                 )),
