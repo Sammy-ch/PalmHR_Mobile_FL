@@ -1,3 +1,4 @@
+import 'package:PALMHR_MOBILE/main.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -45,17 +46,35 @@ class WelcomeScreen extends StatelessWidget {
           const Gap(15),
             SizedBox(
                 width:double.infinity,
-                height: 70.0,
+                height: 50.0,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(Colors.green.shade400)
                         ),
-                        onPressed: (){
-                          context.goNamed("/register");
+                          onPressed: () async{
+                          await sdk.register();
                         },
-                        child: Text("Get Started",style: GoogleFonts.inter(fontSize: 25,fontWeight: FontWeight.w500,color: Colors.white),
+                        child: Text("Register",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.white),
+                        )
+                    )
+                )
+            ),
+            const Gap(15),
+            SizedBox(
+                width:double.infinity,
+                height: 50.0,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(Colors.green.shade400)
+                        ),
+                        onPressed: () async{
+                          await sdk.login();
+                        },
+                        child: Text("Login",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.white),
                         )
                     )
                 )

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:PALMHR_MOBILE/screens/home/home.dart';
 import 'package:PALMHR_MOBILE/screens/leaveRequest/leaveRequest.dart';
 import 'package:PALMHR_MOBILE/screens/onboarding/createAccount.dart';
@@ -17,13 +19,42 @@ import 'package:PALMHR_MOBILE/env/env.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:unicons/unicons.dart';
 import 'package:flutter/services.dart';
+import 'package:kinde_flutter_sdk/kinde_flutter_sdk.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hive/hive.dart';
 
 import 'themeProvider.dart';
+
+
+
+Future<void> initEncryptedHive() async {
+    const FlutterSecureStorage secureStorage =  FlutterSecureStorage();
+  var containsEncryptionKey = await secureStorage.containsKey(key: 'encryptionKey');
+  if (!containsEncryptionKey) {
+    var key = Hive.generateSecureKey();
+    await secureStorage.write(key: 'encryptionKey', value: base64UrlEncode(key));
+  }
+
+}
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await initEncryptedHive();
+  await KindeFlutterSDK.initializeSDK(
+    authDomain: Env.kindeAuthDomain,
+    authClientId: Env.kindeAuthClientId,
+    loginRedirectUri: Env.kindeLoginRedirectUri,
+    logoutRedirectUri: Env.kindeLogoutRedirectUri,
+    audience: Env.kindeAudience, //optional
+    scopes: ["email","profile","offline","openid"] // optional
+);
+
   await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabase_anon);
+
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   runApp(ChangeNotifierProvider(
@@ -32,8 +63,13 @@ Future<void> main() async {
   ));
 }
 
+
+final sdk = KindeFlutterSDK.instance;
 final supabase = Supabase.instance.client;
 final userId = Supabase.instance.client.auth.currentSession!.user.id;
+
+
+
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -161,19 +197,18 @@ final GoRouter _goRouter = GoRouter(
           ),
         ]),
   ],
-  redirect: (context, state) {
-    final session = Supabase.instance.client.auth.currentSession;
-    final isLoggedIn = session != null;
+  redirect: (context, state) async {
+   final isAuthenticated = await sdk.isAuthenticate();
 
     if (state.matchedLocation == '/welcome' ||
         state.matchedLocation == '/register') {
       return null;
     }
 
-    if (!isLoggedIn) {
+    if (!isAuthenticated) {
       return '/login';
     }
-    if (isLoggedIn) {
+    if (isAuthenticated) {
       return _checkProfileExists(context).then((exists) {
         if (exists) {
           if (state.matchedLocation == '/analytics') {
@@ -271,4 +306,36 @@ void updateSystemUIOverlayStyle(ThemeMode themeMode) {
       statusBarBrightness: Brightness.light,
     ));
   }
+}
+
+
+Future < Box > hiveEncryptedBox() async {
+    // Hive Encrypted Box Added
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    String ? key = await secureStorage.read(key: 'encryptionKey');
+    var encryptionKey = base64Url.decode(key!);
+    var box = await Hive.openBox('myBox', encryptionCipher: HiveAesCipher(encryptionKey));
+    return box;
+}
+Future < String > returnAccessToken() async {
+    final box = await hiveEncryptedBox();
+    var token = box.get('token', defaultValue: '');
+    if (token == '') {
+        return await getNewToken();
+    } else if (token != null) {
+        bool hasExpired = JwtDecoder.isExpired(token);
+        if (hasExpired) {
+            return await getNewToken();
+        }
+        return token;
+    } else {
+        return getNewToken();
+    }
+}
+Future < String > getNewToken() async {
+    String ? token = await sdk.getToken();
+    if (token == null) return 'Refresh Token Expired'; // Redirect user to the login page
+    var box = await hiveEncryptedBox();
+    await box.put('token', token);
+    return token;
 }
