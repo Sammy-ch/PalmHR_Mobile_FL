@@ -92,6 +92,41 @@ class _loginFormState extends State<loginForm> {
     }
   }
 
+ Future<void> _signUp() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await supabase.auth.signUp(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+
+      if (mounted) {
+        context.go('/home');
+        _emailController.clear();
+      }
+    } on AuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message)));
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -143,26 +178,24 @@ class _loginFormState extends State<loginForm> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     isDense: true,
-                      icon: const FaIcon(
-                        Icons.mail_rounded,
-                        size: 30,
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 2,
-                            color: Colors.green,
-                            style: BorderStyle.solid),
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none
-
-                      ),
-                      labelText: "Email",
-                      labelStyle: const TextStyle(color: Colors.black),
-                      filled: true,
-                      fillColor: Colors.grey.shade100,
-                      ),
+                    icon: const FaIcon(
+                      Icons.mail_rounded,
+                      size: 30,
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 2,
+                          color: Colors.green,
+                          style: BorderStyle.solid),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none),
+                    labelText: "Email",
+                    labelStyle: const TextStyle(color: Colors.black),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                  ),
                 ),
                 const Gap(30),
                 TextField(
@@ -175,22 +208,21 @@ class _loginFormState extends State<loginForm> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     isDense: true,
-                      icon: const FaIcon(
-                        Icons.lock_outline,
-                        size: 30,
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(width: 2, color: Colors.green),
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none
-                      ),
-                      labelText: "Password",
-                      labelStyle: const TextStyle(color: Colors.black),
-                      filled: true,
-                      fillColor: Colors.grey.shade100,
-                      ),
+                    icon: const FaIcon(
+                      Icons.lock_outline,
+                      size: 30,
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(width: 2, color: Colors.green),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none),
+                    labelText: "Password",
+                    labelStyle: const TextStyle(color: Colors.black),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                  ),
                 ),
                 const Gap(50),
                 ClipRRect(
@@ -200,8 +232,8 @@ class _loginFormState extends State<loginForm> {
                       height: 50.0,
                       child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all(
-                                  Colors.green)),
+                              backgroundColor:
+                                  WidgetStateProperty.all(Colors.green)),
                           onPressed: () {
                             _signIn();
                           },
@@ -212,9 +244,31 @@ class _loginFormState extends State<loginForm> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ))),
+                ),
+                                const Gap(20),
+                 ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: SizedBox(
+                      width: double.infinity,
+                      height: 50.0,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStateProperty.all(Colors.green)),
+                          onPressed: () {
+                            _signUp();
+                          },
+                          child: AutoSizeText(
+                            "Sign Up",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ))),
                 )
               ],
             )),
+                      
           ],
         ),
       ),

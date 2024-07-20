@@ -45,7 +45,7 @@ class WelcomeScreen extends StatelessWidget {
           const Gap(15),
             SizedBox(
                 width:double.infinity,
-                height: 70.0,
+                height: 50.0,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: ElevatedButton(
@@ -53,9 +53,9 @@ class WelcomeScreen extends StatelessWidget {
                             backgroundColor: WidgetStateProperty.all(Colors.green.shade400)
                         ),
                         onPressed: (){
-                          context.goNamed("/register");
+                          context.goNamed("/login");
                         },
-                        child: Text("Get Started",style: GoogleFonts.inter(fontSize: 25,fontWeight: FontWeight.w500,color: Colors.white),
+                        child: Text("Get Started",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.white),
                         )
                     )
                 )

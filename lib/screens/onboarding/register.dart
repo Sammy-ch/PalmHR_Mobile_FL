@@ -27,7 +27,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                 const Gap(30),
                 Image.asset("assets/logo.png", scale: 7),
                 const Gap(80),
-                const loginForm(),
+                const registerForm(),
               ],
             ),
           ),
@@ -37,26 +37,26 @@ class _LoginScreenState extends State<RegisterScreen> {
   }
 }
 
-class loginForm extends StatefulWidget {
-  const loginForm({super.key});
+class registerForm extends StatefulWidget {
+  const registerForm({super.key});
 
   @override
-  State<loginForm> createState() => _loginFormState();
+  State<registerForm> createState() => _registerFormState();
 }
 
-class _loginFormState extends State<loginForm> {
+class _registerFormState extends State<registerForm> {
   late final TextEditingController _emailController = TextEditingController();
   late final TextEditingController _passwordController =
       TextEditingController();
 
   bool _isLoading = false;
 
-  Future<void> _signIn() async {
+  Future<void> _signUp() async {
     try {
       setState(() {
         _isLoading = true;
       });
-      await supabase.auth.signInWithPassword(
+      await supabase.auth.signUp(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
 
@@ -91,7 +91,7 @@ class _loginFormState extends State<loginForm> {
       child: Container(
         padding: const EdgeInsets.all(30.0),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Colors.white,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0),
@@ -196,7 +196,7 @@ class _loginFormState extends State<loginForm> {
                               backgroundColor: WidgetStateProperty.all(
                                   Colors.green)),
                           onPressed: () {
-                            _signIn();
+                          _signUp();
                           },
                           child: AutoSizeText(
                             "Login",

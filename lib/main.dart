@@ -161,7 +161,7 @@ final GoRouter _goRouter = GoRouter(
           ),
         ]),
   ],
-  redirect: (context, state) {
+  redirect: (context, state) async {
     final session = Supabase.instance.client.auth.currentSession;
     final isLoggedIn = session != null;
 
@@ -174,32 +174,34 @@ final GoRouter _goRouter = GoRouter(
       return '/login';
     }
     if (isLoggedIn) {
-      return _checkProfileExists(context).then((exists) {
-        if (exists) {
-          if (state.matchedLocation == '/analytics') {
-            return null;
-          }
-          if (state.matchedLocation == '/leave') {
-            return null;
-          }
+      final exists = await doesUserExist(userId);
 
-          if (state.matchedLocation == "/newLeaveRequest") {
-            return null;
-          }
-
-          if(state.matchedLocation == "/privacyPolicy") {
-            return null;
-          }
-
-          if (state.matchedLocation == '/settings') {
-            return null;
-          }
-          return '/home';
-        } else {
-          return '/createAccount';
+      if (exists) {
+        if (state.matchedLocation == '/analytics') {
+          return null;
         }
-      });
+        if (state.matchedLocation == '/leave') {
+          return null;
+        }
+
+        if (state.matchedLocation == "/newLeaveRequest") {
+          return null;
+        }
+
+        if (state.matchedLocation == "/privacyPolicy") {
+          return null;
+        }
+
+        if (state.matchedLocation == '/settings') {
+          return null;
+        }
+        return '/home';
+      } else {
+        return '/createAccount';
+      }
     }
+    ;
+
     return null;
   },
 );
@@ -237,26 +239,6 @@ void _onItemTapped(BuildContext context, int index) {
   }
 }
 
-Future<bool> _checkProfileExists(BuildContext context) async {
-  try {
-    final data = await Supabase.instance.client
-        .from("EmployeeProfile")
-        .select()
-        .eq("profile_id", userId)
-        .single();
-    return true;
-  } catch (error) {
-    // Handle error or log it
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Error checking profile existence: $error"),
-      ),
-    );
-    return false;
-  }
-}
-
-
 void updateSystemUIOverlayStyle(ThemeMode themeMode) {
   if (themeMode == ThemeMode.dark) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
@@ -270,5 +252,20 @@ void updateSystemUIOverlayStyle(ThemeMode themeMode) {
       statusBarIconBrightness: Brightness.dark,
       statusBarBrightness: Brightness.light,
     ));
+  }
+}
+
+
+Future<bool> doesUserExist(String userId) async {
+  try {
+    final response = await supabase
+        .from('EmployeeProfile')
+        .select('profile_id')
+        .eq('profile_id', userId)
+        .single();
+    return response != null;
+  } catch (e) {
+    print('Error checking user existence: $e');
+    return false;
   }
 }
