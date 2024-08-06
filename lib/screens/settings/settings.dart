@@ -107,60 +107,6 @@ class _SettingsPageState extends State<SettingsPage> {
   ThemeMode themeMode = ThemeMode.system;
   ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
-  var _loading = true;
-  String _firstName = '';
-  String _lastName = '';
-  String _position = '';
-  String _profileImage = '';
-
-  Future<void> _getProfile() async {
-    setState(() {
-      _loading = true;
-    });
-
-    try {
-      final data = await supabase
-          .from("EmployeeProfile")
-          .select("*")
-          .eq("profile_id", userId)
-          .single();
-
-      _firstName = data['first_name'];
-      _lastName = data['last_name'];
-      _position = data['position'];
-      _profileImage = data['profile_image'];
-    } on PostgrestException catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Unexpected error occurred'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _loading = false;
-        });
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getProfile();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,15 +116,6 @@ class _SettingsPageState extends State<SettingsPage> {
       height: 700,
       child: ListView(
         children: [
-          // User card
-          // BigUserCard(
-          //   cardRadius: 20,
-          //   backgroundColor: Colors.green,
-          //   userName: "$_firstName $_lastName",
-          //   userProfilePic: _profileImage.isNotEmpty
-          //       ? NetworkImage(_profileImage,) as ImageProvider
-          //       : const AssetImage("assets/logo.png") as ImageProvider,
-          // ),
           SettingsGroup(
             items: [
               SettingsItem(

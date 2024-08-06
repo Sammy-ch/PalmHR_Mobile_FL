@@ -416,7 +416,7 @@ class _NewLeaveRequestState extends State<NewLeaveRequest> {
                                               fontWeight: FontWeight.w600)),
                                     ],
                                   ),
-                                  const Icon(Icons.arrow_forward_sharp,color: Colors.amber,),
+                                  const Icon(Icons.arrow_forward_sharp),
                                   Column(
                                     children: [
                                       Text("to",

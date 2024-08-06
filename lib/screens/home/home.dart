@@ -66,10 +66,10 @@ class _HeaderComponentState extends State<HeaderComponent> {
           .eq("profile_id", userId)
           .single();
 
-      _firstName = data['first_name'];
-      _lastName = data['last_name'];
-      _position = data['position'];
-      _profileImage = data['profile_image'];
+      _firstName = data['first_name'] ?? '';
+      _lastName = data['last_name'] ?? '';
+      _position = data['position'] ?? '';
+      _profileImage = data['profile_image'] ?? '';
     } on PostgrestException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -83,7 +83,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Unexpected error occurred'),
+          content: Text(error.toString()),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
