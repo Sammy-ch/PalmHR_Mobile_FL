@@ -21,112 +21,113 @@ class _CreateAccountState extends State<CreateAccount> {
   final _organizationIdController = TextEditingController();
   bool _isLoading = false;
 
+
+ @override
+  void initState() {
+    super.initState();
+    updateSystemUIOverlayStyle(ThemeMode.dark); 
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text(
-            'Create Account',
-            style: GoogleFonts.dmSans(fontSize: 25, color: Colors.black),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
-            onPressed: () => context.go('/login'),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Create Account',
+          style: GoogleFonts.dmSans(fontSize: 25, color: Colors.white),
         ),
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("First Name"),
-                  const SizedBox(height: 5),
-                  MUIPrimaryInputField(
-                    hintText: "First Name",
-                    controller: _firstNameController,
-                    filledColor: Colors.white,
-                    enabledBorderColor: Colors.grey,
-                  ),
-                  const Gap(20),
-                  const Text("Last Name"),
-                  const SizedBox(height: 5),
-                  MUIPrimaryInputField(
-                    hintText: "Last Name",
-                    controller: _lastNameController,
-                    filledColor: Colors.white,
-                    enabledBorderColor: Colors.grey,
-                  ),
-                  const Gap(20),
-                  const Text("Position"),
-                  const SizedBox(height: 5),
-                  MUIPrimaryInputField(
-                    hintText: "Position",
-                    controller: _positionController,
-                    filledColor: Colors.white,
-                    enabledBorderColor: Colors.grey,
-                  ),
-                  const Gap(20),
-                  const Text("Work Email"),
-                  const SizedBox(height: 5),
-                  MUIPrimaryInputField(
-                    hintText: "Work Email",
-                    controller: _workEmailController,
-                    filledColor: Colors.white,
-                    enabledBorderColor: Colors.grey,
-                  ),
-                  const Gap(30),
-                  const Text("Organization Id"),
-                  const SizedBox(height: 5),
-                  MUIPrimaryInputField(
-                    isObscure: true,
-                    hintText: "Enter Organization Id",
-                    controller: _organizationIdController,
-                    filledColor: Colors.white,
-                    enabledBorderColor: Colors.grey,
-                  ),
-                  const Gap(13),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: _isLoading
-                            ? null
-                            : () {
-                                _createAccount(
-                                  _firstNameController.text,
-                                  _lastNameController.text,
-                                  _positionController.text,
-                                  _workEmailController.text,
-                                  _organizationIdController.text,
-                                );
-                              },
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(Colors.black),
-                          shape: WidgetStateProperty.all(
-                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                          ),
+       
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("First Name"),
+                const SizedBox(height: 5),
+                MUIPrimaryInputField(
+                  hintText: "First Name",
+                  controller: _firstNameController,
+                  filledColor: Colors.white,
+                  enabledBorderColor: Colors.grey,
+                ),
+                const Gap(20),
+                const Text("Last Name"),
+                const SizedBox(height: 5),
+                MUIPrimaryInputField(
+                  hintText: "Last Name",
+                  controller: _lastNameController,
+                  filledColor: Colors.white,
+                  enabledBorderColor: Colors.grey,
+                ),
+                const Gap(20),
+                const Text("Position"),
+                const SizedBox(height: 5),
+                MUIPrimaryInputField(
+                  hintText: "Position",
+                  controller: _positionController,
+                  filledColor: Colors.white,
+                  enabledBorderColor: Colors.grey,
+                ),
+                const Gap(20),
+                const Text("Work Email"),
+                const SizedBox(height: 5),
+                MUIPrimaryInputField(
+                  hintText: "Work Email",
+                  controller: _workEmailController,
+                  filledColor: Colors.white,
+                  enabledBorderColor: Colors.grey,
+                ),
+                const Gap(30),
+                const Text("Organization Id"),
+                const SizedBox(height: 5),
+                MUIPrimaryInputField(
+                  isObscure: true,
+                  hintText: "Enter Organization Id",
+                  controller: _organizationIdController,
+                  filledColor: Colors.white,
+                  enabledBorderColor: Colors.grey,
+                ),
+                const Gap(30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () {
+                              _createAccount(
+                                _firstNameController.text,
+                                _lastNameController.text,
+                                _positionController.text,
+                                _workEmailController.text,
+                                _organizationIdController.text,
+                              );
+                            },
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.green),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                         ),
-                        child: _isLoading
-                            ? const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                              )
-                            : const Text("Create Account"),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                      child: _isLoading
+                          ? const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : const Text("Submit Details"),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            if (_isLoading)
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
-          ],
-        ),
+          ),
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }

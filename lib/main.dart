@@ -255,7 +255,6 @@ void updateSystemUIOverlayStyle(ThemeMode themeMode) {
   }
 }
 
-
 Future<bool> doesUserExist(String userId) async {
   try {
     final response = await supabase
@@ -269,3 +268,4 @@ Future<bool> doesUserExist(String userId) async {
     return false;
   }
 }
+

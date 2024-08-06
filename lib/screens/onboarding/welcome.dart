@@ -55,7 +55,7 @@ class WelcomeScreen extends StatelessWidget {
                         onPressed: (){
                           context.goNamed("/login");
                         },
-                        child: Text("Get Started",style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.white),
+                        child: Text("Get Started",style: GoogleFonts.dmSans(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.white),
                         )
                     )
                 )
