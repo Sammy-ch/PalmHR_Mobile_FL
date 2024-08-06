@@ -19,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -26,6 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Image.asset(
               "assets/skyscraper3.jpg",
               fit: BoxFit.cover,
+              color: isDarkMode ? Colors.black.withOpacity(0.3) : null,
+              colorBlendMode: isDarkMode ? BlendMode.darken : null,
             ),
           ),
           SafeArea(
@@ -57,10 +62,13 @@ class SupabaseLogin extends StatefulWidget {
 class _SupabaseLoginState extends State<SupabaseLogin> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: isDarkMode ? Colors.grey[900] : Colors.white,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -76,7 +84,10 @@ class _SupabaseLoginState extends State<SupabaseLogin> {
           onSignUpComplete: (response) {},
           metadataFields: [
             MetaDataField(
-              prefixIcon: const Icon(Icons.person),
+              prefixIcon: Icon(
+                Icons.person,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
               label: 'Username',
               key: 'username',
               validator: (val) {
